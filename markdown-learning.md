@@ -16,6 +16,11 @@
 | `~~删除线~~` | ~~删除线~~ |
 | `***斜粗体1***` | ***斜粗体1*** | 
 | `___斜粗体2___` | ___斜粗体2___ |
+| `[Contribution guidelines for this project](markdown-learning.md)` | [Contribution guidelines for this project](markdown-learning.md) |
+
+
+
+
 | `***~~斜粗体删除线1~~***` | ***~~斜粗体删除线1~~*** |
 | `~~***斜粗体删除线2***~~` | ~~***斜粗体删除线2***~~ |
 
@@ -31,4 +36,42 @@ const helloWorld = () => console.log('Hello world!');
 System.out.printf("%s\n", );
 ```
 
-[Contribution guidelines for this project](markdown-learning.md)
+```
+- li1
+- li2
+- li3
+```
+- li1
+- li2
+- li3
+
+```
+* li1
+* li2
+* li3
+```
+
+* li1
+* li2
+* li3
+
+```
+1. li1
+2. li2
+3. li3
+```
+
+1. li1
+2. li2
+3. li3
+
+
+
+
+
+
+
+
+
+
+
