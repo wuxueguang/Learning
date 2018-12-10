@@ -19,3 +19,8 @@
 | isFieldValidating | 判断一个输入控件是否在校验状态 | Function(name) |
 | resetFields | 重置一组输入控件的值与状态，如不传入参数，则重置所有组件 | Function([names: string[]]) |
 | getFieldProps | 用于和表单进行双向绑定，详见下方描述 | |
+
+
+```javascript
+const helloword = () => console.log('Hello world!');
+```
