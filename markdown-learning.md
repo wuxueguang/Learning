@@ -22,5 +22,5 @@
 
 
 ```javascript
-const helloword = () => console.log('Hello world!');
+const helloWorld = () => console.log('Hello world!');
 ```
