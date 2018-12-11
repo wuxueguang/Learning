@@ -1,4 +1,4 @@
 ## mapStateToProps
 ```javascript
-mapStateToProps(state, ownProps)
+mapStateToProps(state[, ownProps])
 ```
