@@ -36,6 +36,7 @@ const helloWorld = () => console.log('Hello world!');
 System.out.printf("%s\n", );
 ```
 
+# ul
 ```
 - li1
 - li2
@@ -45,6 +46,7 @@ System.out.printf("%s\n", );
 - li2
 - li3
 
+# ul
 ```
 * li1
 * li2
@@ -55,6 +57,7 @@ System.out.printf("%s\n", );
 * li2
 * li3
 
+# ol
 ```
 1. li1
 2. li2
@@ -64,6 +67,16 @@ System.out.printf("%s\n", );
 1. li1
 2. li2
 3. li3
+
+```
+1. First list item
+   - First nested list item
+     - Second nested list item
+```
+
+1. First list item
+   - First nested list item
+     - Second nested list item
 
 
 
