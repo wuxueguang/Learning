@@ -4,7 +4,7 @@
 #### h4
 ##### h5
 ###### h6
-----
+
 ## table
 
 | 语法      | 效果                                     |
@@ -17,10 +17,6 @@
 | `***斜粗体1***` | ***斜粗体1*** | 
 | `___斜粗体2___` | ___斜粗体2___ |
 | `[Contribution guidelines for this project](markdown-learning.md)` | [Contribution guidelines for this project](markdown-learning.md) |
-
-
-
-
 | `***~~斜粗体删除线1~~***` | ***~~斜粗体删除线1~~*** |
 | `~~***斜粗体删除线2***~~` | ~~***斜粗体删除线2***~~ |
 
