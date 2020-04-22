@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('DOMContentLoaded');
+        });
+        window.addEventListener('load', () => {
+            console.log('load');
+        });
+        console.log('embedded script');
+        console.log(document, document.body)
+    </script>
+
+    <script src="./header.js"></script>
+</head>
+<body>
+
+
+    <script>
+        console.log(document.body)
+    </script>
+    
+    <script src="./defer1.js" defer></script>
+    <script src="./async1.js" async></script>
+    <script src="./async2.js" async></script>
+
+
+    <script src="./defer2.js" defer></script>
+
+    <script src="./async3.js" async></script>
+
+    <script src="./normal.js"></script>
+
+    <script src="./defer3.js" defer></script>
+
+    <script src="./async4.js" async></script>
+
+    <script src="./defer4.js" defer></script>
+
+</body>
+</html>

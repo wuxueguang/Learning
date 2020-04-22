@@ -1,0 +1,23 @@
+{
+  "name": "wxg-blog",
+  "version": "1.0.0",
+  "description": "wxg's blog",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env process.env.NODE_ENV=development node src/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-router": "^8.0.8",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.2.1",
+    "md5": "^2.2.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2"
+  }
+}
