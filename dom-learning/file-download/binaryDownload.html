@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input id="chooser" type="file" />
+  <img id="img" />
+  <script>
+    document.getElementById('chooser').addEventListener('change', e => {
+      const file = e.target.files[0];
+
+
+      const a = document.createElement('a');
+      const loadstream = window.URL.createObjectURL(file);
+      // const contentDisposition = response.headers.get('Content-Disposition') || '';
+      // const encodedFilename = (contentDisposition.split('=')[1]);
+      // if (!encodedFilename) return message.error('导出失败');
+      // const filename = decodeURIComponent(encodedFilename);
+      const filename = file.name;
+      a.href = loadstream;
+      a.download = filename;
+      document.body.appendChild(a);
+      const evt = document.createEvent('MouseEvents');
+      evt.initEvent('click', true, true);
+      a.dispatchEvent(evt)
+      // or a.click();
+      document.body.removeChild(a);
+      return window.URL.revokeObjectURL(loadstream);
+    });
+
+  </script>
+</body>
+</html>

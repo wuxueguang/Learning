@@ -1,3 +1,5 @@
+//文件上传
+
 const formData = new FormData();
 const fileField = document.querySelector("input[type='file']");
 const submitBtn = document.querySelector("button");
