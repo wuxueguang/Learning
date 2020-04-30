@@ -9,8 +9,22 @@
   <input id="chooser" type="file" />
   <img id="img" />
   <script>
-    document.getElementById('chooser').addEventListener('change', e => {
+    const img2Base64 = file => {
+      const fileReader = new FileReader;
+      fileReader.readAsDataURL(file);
+      return new Promise(resolve => {
+        fileReader.addEventListener('load', () => {
+          resolve(fileReader.result);
+        });
+      });
+    };
+
+    document.getElementById('chooser').addEventListener('change', async e => {
       const file = e.target.files[0];
+      const img = document.createElement('img');
+
+      img.setAttribute('src', await img2Base64(file));
+      document.body.appendChild(img);
 
 
       const a = document.createElement('a');

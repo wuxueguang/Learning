@@ -1,6 +1,7 @@
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
 
 const isUrl = path => reg.test(path);
+
 /**
  * examples: key2value('true') -> true | key2value('null) -> null | key2value('123') -> 123 | key2value('sdf') -> sdf;
  * @param {*} key 
@@ -41,9 +42,20 @@ const downloadWithBinary = async ({ response } = {}) => {
   }
 };
 
+const img2Base64 = file => {
+  const fileReader = new FileReader;
+  fileReader.readAsDataURL(file);
+  return new Promise(resolve => {
+    fileReader.addEventListener('load', () => {
+      resolve(fileReader.result);
+    });
+  });
+};
+
 export {
   isUrl,
   key2value,
   downloadWithUrl,
-  downloadWithBinary
+  downloadWithBinary,
+  img2Base64
 };
