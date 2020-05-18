@@ -4,6 +4,7 @@ const uploader = require('./uploader');
 
 router
     .get('/test', async ctx => {
+        ctx.status = 500;
         await ctx.render('test', {title: '测试ejs'});
     })
     .get('/upload', async ctx => {
