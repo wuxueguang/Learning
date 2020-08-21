@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Remote javascript loader.</title>
+</head>
+<body>
+  <script>
+    'use strict';
+    (function(){
+      var jsUrls = [];
+      try{
+        jsUrls = /jsUrls=(\S*)&?/.exec(location.search)[1].split(',').reverse();
+      }catch(err){
+        console.log('ERROR: No js url provided!');
+      }
+      
+      function innerCall(){
+        const url = jsUrls.pop();
+        if(url){
+          const script = document.createElement('script');
+          script.src = unescape(url);
+          document.body.appendChild(script);
+          script.addEventListener('load', () => {
+            if(jsUrls.length){
+              innerCall();
+            }else{
+              window.postMessage('successed');
+            }
+          });
+        }
+      }
+      innerCall();
+    }());
+  </script>
+</body>
+</html>

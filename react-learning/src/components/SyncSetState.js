@@ -13,14 +13,14 @@ class SyncSetState extends React.Component{
         Promise.resolve().then(() => {   //sync
             this.setState({count: 5});
             console.log(this.state);
-            debugger
+            
             this.setState({count: 7});
             console.log(this.state);
         });
         setTimeout(() => {   //sync
             this.setState({count: 9});
             console.log(this.state);
-            debugger
+            
             this.setState({count: 11});
             console.log(this.state);
         }, 5000);

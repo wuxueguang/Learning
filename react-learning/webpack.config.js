@@ -14,11 +14,18 @@ module.exports = {
             test: /\.m?js$/,
             exclude: /(node_modules|bower_components)/,
             loader: 'babel-loader',
+        }, {
+            test: /\.less$/,
+            exclude: /(node_modules|bower_components)/,
+            loader: 'less-loader',
         }]
     },
     optimization: {
         runtimeChunk: {
             name: 'runtime'
         }
+    },
+    resolve: {
+        extensions: ['.js', '.jsx'],
     }
 };
