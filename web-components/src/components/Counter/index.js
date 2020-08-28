@@ -1,9 +1,7 @@
 
-import styles from './style.less';
+import './style.less';
 
 import React, { useState, useEffect } from 'react';
-
-console.log(styles)
 
 const C = props => {
   const [counter, setCounter] = useState(props.start || 0);
