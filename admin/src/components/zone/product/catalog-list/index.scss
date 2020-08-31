@@ -1,0 +1,42 @@
+.veer-offline-productsetting-catalog-list{
+  height: 480px;
+  border: 1px solid #d9d9d9;
+  .empty-data {
+    padding-top: 120px;
+    opacity: .45;
+    text-align: center;
+  }
+  img {
+    width: 80px;
+    height: 45px;
+    margin-right: 8px;
+    border-radius: 2px;
+  }
+  table thead tr th{
+    padding: 8px 4px;
+  }
+  table tbody tr td{
+    padding: 8px 4px;
+    word-wrap: break-word;
+    word-break: break-all;
+    border-bottom-width: 0px;
+    &:first-child{
+      padding-left: 16px;
+    }
+    .ant-input {
+      width: 54px;
+      margin-left: 4px;
+      padding-left: 4px;
+      padding-right: 2px;
+    }
+  }
+  table tbody tr:last-child td{
+    border-bottom: none;
+  }
+  table thead tr th:first-child{
+    padding-left: 24px;
+  }
+  table tbody tr td:first-child{
+    padding-left: 24px;
+  }
+}

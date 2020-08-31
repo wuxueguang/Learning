@@ -1,0 +1,182 @@
+.veer-offline-catalog-edit-v2 {
+    &-header {
+        margin-bottom: 10px;
+        &.p59 {
+            padding-top: 59px;
+        }
+        span {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000;
+        }
+        h3 {
+            padding-left: 4px;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+    }
+    .empty-contents {
+        border: 1px solid #eaeaea;
+        min-height: 490px;
+        padding-top: 120px;
+        text-align: center;
+        color: rgba(0, 0, 0, .45);
+    }
+    .ant-table-content {
+        border: 1px solid #eaeaea;
+        .ant-table-thead {
+            tr {
+                th {
+                    border: none;
+                    padding: 8px 4px;
+                    .ant-table-column-title {
+                        color: rgba(0, 0, 0, 0.65);
+                    }
+                    &:first-child {
+                        padding-left: 12px;
+                    }
+                }
+            }
+        }
+        .ant-table-tbody {
+            tr {
+                td {
+                    border: none;
+                    word-wrap: break-word;
+                    word-break: break-all;
+                    padding: 8px 4px 8px 4px;
+                    &:first-child {
+                        padding-left: 12px;
+                    }
+                    .anticon-arrows-alt {
+                        transform: rotate(-45deg);
+                    }
+                    .veer-offline-productsetting-productedit-table-del {
+                        color: #1890ff;
+                        cursor: pointer;
+                    }
+                    img {
+                        width: 64px;
+                        height: 36px;
+                        border-radius: 2px;
+                    }
+                    .ant-input {
+                        width: 54px;
+                        margin-left: 4px;
+                        padding-left: 4px;
+                        padding-right: 2px;
+                    }
+                    &.action {
+                        text-align: right;
+                        padding-right: 16px;
+                    }
+                }
+            }
+        }
+    }
+    .ant-input-affix-wrapper {
+        margin-bottom: 15px;
+    }
+    .ant-table-placeholder {
+        border: none;
+    }
+    .ant-tabs-nav .ant-tabs-tab {
+        padding-top: 9px;
+        padding-bottom: 9px;
+        border: 1px solid #e8e8e8;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        margin-right: 2px;
+    }
+    .ant-tabs-nav .ant-tabs-tab-active {
+        background-color: #f8f8f8;
+        color: #000;
+    }
+    .ant-tabs-ink-bar {
+        background-color: #f8f8f8;
+        height: 2px;
+    }
+    .ant-tabs-bar {
+        margin-bottom: 0;
+        border-bottom: 0px;
+    }
+    .loading-contents {
+        min-height: 283px;
+    }
+}
+
+.veer-loading-contents {
+    min-height: 283px;
+    text-align: center;
+}
+
+.veer-date-select-wrap {
+    padding-top: 24px;
+    .error-msg {
+        display: none;
+        padding-left: 8px;
+        color: #F5222D;
+    }
+    &.error {
+        .ant-calendar-picker input {
+            border-color: #F5222D;
+        }
+        .error-msg {
+            display: inline;
+        }
+    }
+}
+
+.device-pending-download-list {
+    padding-bottom: 24px;
+    .device-pending-download-contents {
+        overflow-y: scroll;
+        max-height: 96px;
+        border: 1px solid #e9e9e9;
+        .pending-download-item {
+            font-size: 12px;
+            line-height: 16px;
+            color: rgba(0, 0, 0, .45);
+        }
+    }
+}
+
+.veer-offline-productedit {
+    .ant-modal-body {
+        padding-bottom: 0px;
+    }
+    .ant-modal-footer {
+        border-top-width: 0px;
+    }
+    .btn-back {
+        float: left;
+    }
+}
+
+.veer-offline-productsetting-productedit-detail {
+    .tag,
+    .tagline,
+    .description,
+    .dubbing {
+        margin-bottom: 15px;
+    }
+    .title {
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.85);
+        margin-right: 20px;
+    }
+    .tagline .title,
+    .description .title {
+        display: block;
+        margin-bottom: 10px;
+    }
+    .ant-table-content {
+        min-height: 489px;
+    }
+}
+
+.veer-offline-productsetting-preview .ant-checkbox-wrapper {
+    position: absolute;
+    top: 45px;
+    right: 16px
+}

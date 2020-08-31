@@ -1,14 +1,15 @@
-:root{
-  --warnningColor: yellow;
-}
+
+
+@warnningColor: yellow;
+@fontColor: red;
 
 .red-font{
-  color: red;
+  color: @fontColor;
 }
 
 :global{
   .test{
-    border: solid 2px var(--warnningColor);
+    border: solid 2px @warnningColor;
   }
 };
 

@@ -1,0 +1,72 @@
+#!/usr/bin/env node
+process.env.NODE_ENV = 'development';
+
+const webpack = require('webpack');
+const WebpackDevServer = require('webpack-dev-server');
+const chalk = require('chalk');
+const os = require('os');
+
+const { PORT, PORT_DEV } = process.env;
+
+const port = (PORT && parseInt(PORT, 10)) || 2008;
+const interfaces = os.networkInterfaces();
+
+function getNetworkAddress()  {
+  for (const name of Object.keys(interfaces)) {
+    for (const item of interfaces[name]) {
+      const { address, family, internal } = item;
+      if (family === 'IPv4' && !internal) {
+        return address;
+      }
+    }
+  }
+  return '127.0.0.1';
+}
+
+const ip = getNetworkAddress();
+
+function compile(config) {
+  let compiler;
+  try {
+    compiler = webpack(config);
+  } catch (err) {
+    console.error('Failed to compile.', [err]);
+    process.exit(1);
+  }
+  return compiler;
+}
+
+function main() {
+  console.log('Compiling client side...');
+  const url = `http://127.0.0.1:${port}`;
+  console.log(`Static Server Proxy: ${chalk.grey(url)}`);
+
+  const [clientConfig, serverConfig] = require('../webpack')(process.env.NODE_ENV);
+
+  clientConfig.output.publicPath = `http://${ip}:${port}/`;
+  const clientCompiler = compile(clientConfig);
+  const serverCompiler = compile(serverConfig);
+
+  clientCompiler.plugin('done', () => {
+    console.log('Compiling server side...');
+    serverCompiler.watch({
+      quiet: true,
+      stats: 'none'
+    }, (stats) => {});
+  });
+
+  serverCompiler.plugin('done', () => {
+    const remoteUrl = `http://${ip}:6001`;
+    console.log(`Local Remote Address: ${chalk.green(remoteUrl)}`);
+  });
+
+  const clientDevServer = new WebpackDevServer(clientCompiler, clientConfig.devServer);
+  clientDevServer.listen(port, (err) => {
+    if (err) {
+      console.error(err);
+    }
+  });
+}
+
+new Promise(main)
+  .catch(console.error);

@@ -1,0 +1,31 @@
+.veer-price-panel {
+    .ant-card {
+        margin: 16px 24px;
+        .ant-card-head-title {
+            flex: none;
+        }
+        .ant-card-extra {
+            float: left;
+            margin-left: 32px;
+        }
+    }
+    .ant-table-tbody>tr>td {
+        .price-edit-form {
+            &>span {
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .ant-btn {
+                margin: 0 4px;
+            }
+        }
+        padding: 22px 8px;
+        .thumbnail {
+            width: 64px;
+            height: 36px;
+        }
+        input {
+            width: 64px;
+        }
+    }
+}

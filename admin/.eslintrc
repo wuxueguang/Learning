@@ -1,0 +1,73 @@
+{
+  "globals": {
+    "_": true,
+    "__LANG__": true,
+    "__CLIENT__": true,
+    "__SERVER__": true,
+    "__STAGING__": true,
+    "__DEV__": true,
+    "FB": true,
+    "WxLogin": true
+  },
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true,
+    "jquery": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "airbnb"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "arrow-parens": ["error", "always"],
+    "global-require": 0,
+    "no-unused-vars": [2, { "vars": "local", "args": "none" }],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "new-cap": ["error", { "capIsNew": false }],
+    "no-underscore-dangle": 0,
+    "no-multi-spaces": 0,
+    "key-spacing": 0,
+    "camelcase": 0,
+    "no-param-reassign": 0,
+    "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+    "import/no-named-as-default": 0,
+    "import/no-named-as-default-member": 0,
+    "import/prefer-default-export": 0,
+    "import/imports-first": 0,
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/no-multi-comp": 0,
+    "react/no-find-dom-node": 0,
+    "react/prop-types": [0, { "ignore": [], "customValidators": [] }],
+    "react/prefer-stateless-function": 0,
+    "react/require-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "no-mixed-operators": 0,
+    "comma-dangle": 0,
+    "no-restricted-syntax": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": { "config": "./config/webpack/dev.common.config.js" },
+      "alias": [
+        ["utils", "./app/common/utils"],
+        ["common", "./app/common"],
+        ["widgets", "./app/common/widgets"]
+      ]
+    },
+    "react": {
+      "version": "15.0"
+    }
+  }
+}

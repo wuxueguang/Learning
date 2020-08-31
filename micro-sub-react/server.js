@@ -13,6 +13,7 @@ router
     next();
   })
   .get(/.*/, async (ctx, next) => {
+    ctx.response.set('Access-Control-Allow-Origin', '*');
     await send(ctx, 'index.html');
     next();
   });

@@ -1,8 +1,10 @@
 
-import React from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import classNames from 'classnames';
 import { Card, Button, DatePicker } from 'antd';
 import styles from './styles.less';
+
+
 
 import {
   HashRouter as Router,
@@ -15,8 +17,20 @@ function Home() {
 }
 
 function About() {
+  const Counter = React.lazy(() => import('../Counter'));
+  const [showCounter, setShowCounter] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowCounter(true);
+    }, 2000);
+  }, []);
+
   return (
     <Card>
+      <Suspense fallback={<div>Loading...</div>}>
+        {showCounter && <Counter />}
+      </Suspense>
       <Button type="primary">About</Button>
       <DatePicker />
     </Card>
@@ -27,14 +41,11 @@ function Users() {
   return <h2>Users</h2>;
 }
 
-const App = () => {
-  // setTimeout(() => {
-  //   import('../../test/test.js')
-  // }, 1000)
 
+const App = () => {
   return (
     <Router basename={location.pathname}>
-      <div>
+      <div className="test">
         <nav>
           <ul>
             <li>

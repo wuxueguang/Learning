@@ -1,0 +1,179 @@
+stages:
+  - start
+  - build
+  - publish
+  - staging
+  - check
+  - production
+ # - reset-staging
+
+start:
+  stage: start
+  only:
+    - master
+  tags:
+    - shared
+  when: manual
+  allow_failure: false
+  script:
+    - echo "确认上线开始！"
+
+
+build-beijing:
+  stage: build
+  only:
+    - /^(staging|master)$/
+  image: node:10.13
+  tags:
+    - oregon
+    - shared
+  dependencies:
+    - start
+  before_script:
+    - apt-get update && apt-get install -y python
+    - apt-get install -y python-pip python-dev build-essential zip
+    - pip install awscli
+    - mkdir -p ~/.aws
+    - mkdir -p ~/.docker
+    - wget https://s3-us-west-2.amazonaws.com/veer-oregon-internal/gitlab-ci/runner/credentials -O ~/.aws/credentials
+    - wget https://s3-us-west-2.amazonaws.com/veer-oregon-internal/gitlab-ci/runner/config.json -O ~/.docker/config.json
+    - wget https://s3-us-west-2.amazonaws.com/veer-oregon-build/amazon-ecr-credential-helper/docker-credential-ecr-login_0.6.0 -O /usr/bin/docker-credential-ecr-login
+    - chmod +x /usr/bin/docker-credential-ecr-login
+    - wget https://s3-us-west-2.amazonaws.com/veer-oregon-build/awless/v0.1.11/awless-linux-amd64 -O /usr/local/bin/awless
+    - chmod +x /usr/local/bin/awless
+
+  script:
+    - git --git-dir=.git rev-parse --verify --short HEAD >> revision
+    - echo ${CI_COMMIT_SHA:0:7}
+    - npm ci
+
+    # build zh-CN package
+    - REVISION=${CI_COMMIT_SHA:0:7} npm run build
+
+    # push qiniu CDN
+    - npm install @veervr/vrkit
+    - node_modules/@veervr/vrkit/bin/vrkit release  --target qiniu
+
+    - rm -rf ./webpack
+    - rm -rf ./test
+    - rm -rf ./bin
+    - rm -rf ./.git
+    - rm -rf ./node_modules
+
+    # upload package
+    - zip -q -r output--zh-CN.zip ./
+    - awless create s3object bucket=veer-oregon-build name=$CI_PROJECT_NAME/zh-CN/$CI_COMMIT_SHA file=./output--zh-CN.zip -r us-west-2 -f
+
+
+publish-beijing:
+  stage: publish
+  only:
+    - /^(staging|master)$/
+  tags:
+    - oregon
+    - docker_build
+  dependencies:
+    - build-beijing
+  script:
+    # push en image
+    - wget https://s3-us-west-2.amazonaws.com/veer-oregon-build/$CI_PROJECT_NAME/zh-CN/$CI_COMMIT_SHA -O ./output--zh-CN.zip
+    - chmod +x ./output--zh-CN.zip
+    - unzip -o ./output--zh-CN.zip
+    - rm output--zh-CN.zip
+    - cp -f ./APP-META/nginx/nginx.spa.conf ./APP-META/nginx/nginx.conf
+    - docker image build -t $CI_PROJECT_NAME .
+    - docker tag $CI_PROJECT_NAME "YOUR_ECR_CN_REPO:${CI_COMMIT_SHA}"
+    - docker push "YOUR_ECR_CN_REPO:${CI_COMMIT_SHA}"
+
+
+# stg-oregon:
+#   stage: staging
+#   only:
+#     - /^(staging|master)$/
+#   tags:
+#     - oregon
+#     - shared
+#   script:
+#     - mkdir -p ~/.terraform.d/plugins
+#     - aws s3 cp s3://veer-oregon-internal/terraform/plugin-cache ~/.terraform.d/plugins/ --recursive --region us-west-2
+#     - chmod +x -R ~/.terraform.d/plugins/
+#     - cd terraform/us-west-2/staging
+#     - terraform init -get-plugins=false
+
+#     # use double quote here, otherwise the ${REVISION} will not be interpretated
+#     - terraform apply -auto-approve -var "revision=${CI_COMMIT_SHA}"
+
+stg-beijing:
+  stage: staging
+  only:
+    - /^(staging|master)$/
+  tags:
+    - beijing
+    - shared
+  script:
+    - mkdir -p ~/.terraform.d/plugins
+    - aws s3 cp s3://veer-beijing-internal/terraform/plugin-cache ~/.terraform.d/plugins/ --recursive --region cn-north-1
+    - chmod +x -R ~/.terraform.d/plugins/
+    - cd terraform/cn-north-1/staging
+    - terraform init -get-plugins=false
+
+    - terraform workspace select cn-north-1_staging || terraform workspace new cn-north-1_staging
+
+    # use double quote here, otherwise the ${REVISION} will not be interpretated
+    - terraform apply -auto-approve -var "revision=${CI_COMMIT_SHA}"
+
+check-orgen:
+  stage: check
+  only:
+    - /^(staging|master)$/
+  tags:
+    - oregon
+    - shared
+  script:
+    - echo "验证需求！"
+
+check-beijing:
+  stage: check
+  only:
+    - /^(staging|master)$/
+  tags:
+    - beijing
+  script:
+    - echo "验证需求！"
+
+# production-oregon:
+#   stage: production
+#   only:
+#     - /^master$/
+#   tags:
+#     - oregon
+#     - shared
+#   when: manual
+#   allow_failure: false
+#   script:
+#     - mkdir -p ~/.terraform.d/plugins
+#     - aws s3 cp s3://veer-oregon-internal/terraform/plugin-cache ~/.terraform.d/plugins/ --recursive --region us-west-2
+#     - chmod +x -R ~/.terraform.d/plugins/
+#     - cd terraform/us-west-2/production
+#     - terraform init -get-plugins=false
+#     - terraform workspace select us-west-2_production || terraform workspace new us-west-2_production
+
+#     - terraform apply -auto-approve -var "revision=${CI_COMMIT_SHA}"
+
+production-beijing:
+  stage: production
+  only:
+    - /^master$/
+  tags:
+    - beijing
+  when: manual
+  allow_failure: false
+  script:
+    - mkdir -p ~/.terraform.d/plugins
+    - aws s3 cp s3://veer-beijing-internal/terraform/plugin-cache ~/.terraform.d/plugins/ --recursive --region cn-north-1
+    - chmod +x -R ~/.terraform.d/plugins/
+    - cd terraform/cn-north-1/production
+    - terraform init -get-plugins=false
+    - terraform workspace select cn-north-1_production || terraform workspace new cn-north-1_production
+
+    - terraform apply -auto-approve -var "revision=${CI_COMMIT_SHA}"

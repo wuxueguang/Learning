@@ -1,0 +1,46 @@
+#app {
+  .veer-offline-order {
+    margin-top: 25px;
+
+    .ant-col {
+      text-align: center
+    }
+  }
+}
+
+.veer-offline-order-modal {
+  position: relative;
+
+  &-title {
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 20%;
+  }
+
+  .veer-offline-order-modal-filter {
+    display: inline-block;
+  }
+
+  &-date {
+    display: inline-block;
+    padding: 0;
+
+    li {
+      display: inline-block;
+      margin-right: 20px;
+      font-size: 14px;
+      font-weight: normal;
+      color: rgba(0, 0, 0, 0.65);
+      cursor: pointer;
+
+      &.selected {
+        color: #1890ff;
+      }
+    }
+  }
+
+  .ant-col {
+    margin-top: 60px;
+    text-align: center;
+  }
+}

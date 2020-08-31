@@ -1,12 +1,16 @@
 {
+  "compact": false,
   "presets": [
+      "@babel/preset-env",
       "@babel/preset-react"
   ],
   "plugins": [
-      "@babel/plugin-proposal-class-properties",
+      // "@babel/plugin-transform-runtime",
+      "syntax-dynamic-import",
       [ "import", {
-        "libraryName": "antd",
-        "style": "css"
+          "libraryName": "antd",
+          "style": "css"
       }]
+      // "@babel/plugin-proposal-object-rest-spread",
   ]
 }

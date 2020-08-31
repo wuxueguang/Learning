@@ -1,0 +1,111 @@
+body {
+  background-color: #f1f3f3 !important;
+}
+
+#app {
+  .veer-offline-login {
+    width: 100%;
+    position: relative;
+    height: 100vh;
+    min-height: 660px;
+    overflow-y: auto;
+
+    @media screen and(max-width: 640px) {
+      .card-form-login {
+        width: 320px !important;
+
+        .ant-card-body {
+          width: 320px !important;
+        }
+      }
+    }
+
+    .card-form-login {
+      width: 640px;
+      border: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 5px;
+
+      .ant-card-body {
+        width: 420px;
+        margin: 0 auto;
+        padding-top: 80px;
+
+        .card-form-header-login {
+          position: relative;
+          text-align: center;
+
+          .ant-card-meta-avatar {
+            position: absolute;
+            left: 4px;
+            top: -5px;
+            float: none;
+
+            .ant-avatar-image {
+              width: 70px;
+              height: 40px;
+
+              img {
+                display: inline-block;
+                width: auto;
+                height: auto;
+              }
+            }
+          }
+
+          .ant-card-meta-detail {
+            margin-left: 70px;
+          }
+
+          .ant-card-meta-title {
+            font-size: 24px;
+          }
+        }
+
+        .ant-form-horizontal {
+          margin-top: 40px;
+
+          .ant-form-item {
+            .form-field {
+              height: 40px;
+            }
+
+            .ant-input {
+              font-size: 16px;
+              padding-left: 36px;
+            }
+          }
+
+          .login-form-button {
+            width: 100%;
+            font-size: 16px;
+            height: 40px;
+            line-height: 40px;
+          }
+        }
+      }
+    }
+
+    .veer-offline-login-footer {
+      position: absolute;
+      left: 50%;
+      width: 100%;
+      transform: translateX(-50%);
+      bottom: 20px;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.45);
+
+      &-text {
+        margin-bottom: 15px;
+      }
+
+      span {
+        margin: 0 20px;
+      }
+    }
+  }
+
+}

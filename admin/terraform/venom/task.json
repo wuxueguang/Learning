@@ -1,0 +1,42 @@
+
+[{
+  "cpu": ${app_cpu},
+  "essential": true,
+  "image": "${app_image}",
+  "memory": ${app_memory},
+  "memoryReservation": ${app_memory_reservation},
+  "name": "venom-app",
+  "dockerLabels": {
+    "Name": "venom-app",
+    "Env": "${env}"
+  },
+  "portMappings": [{
+    "containerPort": 80,
+    "hostPort": 0
+  }],
+  "mountPoints": [{
+      "sourceVolume": "venom_log",
+      "containerPath": "/var/log/nginx"
+    },
+    {
+      "sourceVolume": "sumologic_sources",
+      "containerPath": "/tmp/sumologic/sources"
+    }],
+  "ulimits": [
+    {
+      "softLimit": 65536,
+      "hardLimit": 65536,
+      "name": "nofile"
+    }
+  ],
+  "environment": ${app_env_vars},
+  "logConfiguration": {
+    "logDriver": "awslogs",
+    "options": {
+        "awslogs-group": "/veer/ironman/${env}",
+        "awslogs-create-group": "true",
+        "awslogs-region": "${aws_region}",
+        "awslogs-stream-prefix": "ironman"
+    }
+  }
+}]

@@ -1,0 +1,87 @@
+#app .panel-zone {
+  width: 100%;
+  /* height: 25vw;*/
+  /* height: 274px; */
+  margin-top: 30px;
+
+  .veer-offline-zone {
+    &-header {
+      position: relative;
+
+      &-name {
+        font-size: 16px;
+        color: #000;
+        font-weight: 500;
+        margin-right: 30%;
+      }
+
+      .btn-group {
+        position: absolute;
+        right: 0;
+        display: inline-block;
+      }
+
+      &-edit {
+        margin-right: 20px;
+      }
+
+    }
+
+    &-content {
+      margin-top: 30px;
+
+      .ant-row {
+        padding: 0;
+      }
+
+      .ant-col {
+        padding: 0 10px;
+
+        .ant-statistic-title {
+          color: #8c8c8c;
+        }
+
+        .ant-statistic-content {
+          color: #000;
+          font-size: 30px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
+      &-order {
+        text-align: center;
+      }
+
+      &-sale {
+        padding-left: 30px !important;
+        border: none !important;
+      }
+    }
+
+    &-footer {
+      margin-top: 30px;
+
+      &-header {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        color: #8c8c8c;
+      }
+
+      .ant-row {
+        padding: 0 !important;
+      }
+
+      .ant-col {
+        @extend .dot;
+      }
+    }
+  }
+}
+
+.dot {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

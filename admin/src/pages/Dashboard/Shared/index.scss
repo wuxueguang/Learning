@@ -1,0 +1,44 @@
+.veer-offline-page-shared {
+  &-content-header{
+    overflow: hidden;
+    padding: 16px 32px 0 32px;
+    background: #fff;
+  }
+  &-zones{
+    position: relative;
+    height: 48px;
+    .ant-tabs{
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin-bottom: 0px;
+      .ant-tabs-bar{
+        border-bottom-width: 0px;
+        margin-bottom: 1px;
+      }
+    }
+    .total-count{
+      float: right;
+      line-height: 48px;
+    }
+  }
+  .ant-card{
+    margin: 24px;
+    &-head{
+      display: none;
+    }
+    table.basic-info{
+      width: 100%;
+      td{
+        padding: 8px 0;
+      }
+    }
+  }
+  h5{
+    font-size: 16px;
+  }
+  .ant-popover{
+    width: 240px;
+  }
+}

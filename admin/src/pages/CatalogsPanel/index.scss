@@ -1,0 +1,33 @@
+.ant-row.veer-offline-catalogs-panel-contents {
+    overflow: auto;
+    position: fixed;
+    top: 184px;
+    bottom: 0;
+    left: 215px;
+    right: 0;
+    padding: 24px 20px;
+    white-space: nowrap;
+    .ant-card {
+        display: inline-block;
+        width: 384px;
+        margin-right: 8px;
+        margin-left: 8px;
+        vertical-align: top;
+        .ant-card-head-title {
+            flex: none;
+        }
+        .ant-card-extra {
+            float: left;
+        }
+    }
+    .form-create-catalog {
+        text-align: center;
+        padding-top: 72px;
+    }
+}
+
+.veer-create-catalog-success-modal {
+    .ant-modal-footer .ant-btn:first-child {
+        display: none;
+    }
+}

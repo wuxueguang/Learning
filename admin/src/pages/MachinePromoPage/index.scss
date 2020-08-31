@@ -1,0 +1,341 @@
+$font-color: #232323;
+$bg-color: #fafafa;
+$white-color: #fff;
+$light-red: #ee2737;
+$normal-red: #cf0014;
+$border-gradient: linear-gradient(180deg, rgb(207, 0, 20), rgb(238, 39, 55));
+
+.machine-catalogs-page {
+  width: 100%;
+  display: flex;
+  color: $white-color;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .content-section {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    border-top: 4px solid rgba(238, 39, 55, 0.45);
+    position: relative;
+    margin-top: 34px;
+
+    .text {
+      font-size: 22px;
+      line-height: 42px;
+      font-weight: 600;
+      text-align: center;
+      position: absolute;
+      width: 172px;
+      height: 40px;
+      top: -22px;
+      left: 50%;
+      margin-left: -86px;
+
+      &.main {
+        background-image: url('https://assets.veervr.tv/@vrups/600/2b5f939a064d6c18eb7f7755dcbc5b819de390bd-344-80.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      &.sec {
+        background-image: url('https://assets.veervr.tv/@vrups/354/5e2c4be0f827c1bdfabd263dcd11236d669e4ee5-344-80.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: #000;
+      }
+    }
+
+    .contents-items {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 18px;
+
+      .promo-item-box {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: 8px 16px 0 0;
+        position: relative;
+        box-shadow: 0 2px 8px 0 rgba(18, 18, 18, 0.2);
+        overflow: hidden;
+
+        .promo-box-thumbnail {
+          width: 100%;
+          height: 0;
+          min-height: 100px;
+          padding-bottom: 56.25%;
+          img {
+            width: 100%;
+          }
+        }
+
+        .promo-overlay {
+          position: absolute;
+          top: 0;
+          display: flex;
+
+          .box-tag {
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 8px;
+            margin-right: 0;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+
+            span {
+              font-size: 20px;
+              line-height: 24px;
+              vertical-align: middle;
+            }
+
+            &:first-child {
+              margin-left: 8px;
+            }
+          }
+        }
+
+        .item-duration {
+          position: absolute;
+          bottom: 48px;
+          right: 0;
+          color: #fff;
+          background-color: rgba(0, 0, 0, 0.7);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          margin: 8px;
+          padding: 4px 8px;
+          display: flex;
+          align-items: center;
+
+          span {
+            font-size: 20px;
+            line-height: 24px;
+            vertical-align: middle;
+          }
+        }
+
+        .item-info {
+          width: 100%;
+          position: absolute;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.7);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 12px 8px;
+          color: #fff;
+          font-size: 20px;
+          line-height: 24px;
+
+          .item-tagline {
+            color: #fff;
+          }
+
+          .item-duration-price {
+            font-weight: 600;
+            span {
+              margin: 0 2px;
+            }
+          }
+        }
+      }
+
+      &.recommend-section {
+        & > div {
+          width: calc((100% - 16px)/2);
+        }
+
+        .promo-item-box {
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+
+      &.hot-section {
+        & > div {
+          width: calc((100% - 32px)/3);
+        }
+
+        .promo-item-box {
+          &:nth-child(3n) {
+            margin-right: 0;
+          }
+
+          .promo-overlay {
+            .box-tag {
+              margin-right: 0;
+              span {
+                font-size: 16px;
+                line-height: 20px;
+              }
+            }
+          }
+
+          .item-info {
+            padding: 8px;
+            font-size: 16px;
+            line-height: 20px;
+          }
+
+          .item-duration {
+            bottom: 36px;
+  
+            span {
+              font-size: 16px;
+              line-height: 20px;
+            }
+          }
+        }
+      }
+
+      &.child-section {
+        & > div {
+          width: calc((100% - 48px)/4);
+        }
+
+        .promo-item-box {
+          &:nth-child(4n) {
+            margin-right: 0;
+          }
+
+          .promo-overlay {
+            .box-tag {
+              margin: 4px;
+              margin-right: 0;
+              span {
+                font-size: 14px;
+                line-height: 18px;
+              }
+            }
+          }
+
+          .item-info {
+            padding: 5px 8px;
+            font-size: 14px;
+            line-height: 22px;
+          }
+
+          .item-duration {
+            bottom: 32px;
+            margin: 4px;
+  
+            span {
+              font-size: 14px;
+              line-height: 18px;
+            }
+          }
+        }
+      }
+    }
+
+    &.hot, &.child {
+      margin-top: 34px;
+    }
+  }
+
+  .footer-section {
+    display: flex;
+    align-items: center;
+    background-color: $white-color;
+    margin-top: 16px;
+    p {
+      margin: 0;
+    }
+    .left {
+      width: 620px;
+      height: 194px;
+      color: #fff;
+      padding-left: 64px;
+      background-image: url('https://assets.veervr.tv/@vrups/322/69043d65a1f7ccc5a2cd3fd339a8d8ee358d85c0-1238-420.png');
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      p {
+        font-size: 40px;
+        line-height: 48px;
+        font-weight: 600;
+        margin: 0;
+      }
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      .zone-code {
+        width: 140px;
+        height: 140px;
+        margin-left: 36px;
+        margin-right: 24px;
+      }
+
+      .text {
+        font-size: 24px;
+        line-height: 32px;
+        color: rgba(0, 0, 0, 0.85);
+        font-weight: 600;
+      }
+    }
+  }
+
+  .public-section {
+    display: flex;
+    width: 100%;
+    height: 188px;
+    margin-top: 16px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.15);
+
+    .left-icon, .right-icon {
+      height: 100%;
+    }
+
+    .middle {
+      display: flex;
+      align-items: center;
+      .zone-code{
+        width: 144px;
+        height: 144px;
+        margin-right: 40px;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .text {
+        font-size: 24px;
+        line-height: 40px;
+      }
+    }
+  }
+
+  &.self_service {
+    .content-section {
+      margin-top: 48px;
+      &.hot, &.child {
+        margin-top: 51px;
+      }
+    }
+
+    .public-section {
+      margin-top: 0;
+      background-color: #fff;
+      height: 160px;
+
+      .activity-img {
+        width: 100%;
+      }
+    }
+  }
+}
+
+
+

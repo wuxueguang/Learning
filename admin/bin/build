@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+const webpack = require('webpack');
+
+const [clientConfig, serverConfig] = require('../webpack')(process.env.NODE_ENV);
+
+const runCompiler = (compiler) => new Promise(async (resolve, reject) => {
+  const webpackCompiler = await webpack(await compiler);
+  webpackCompiler.run((err, stat) => {
+    if (err) {
+      console.log({ ...err });
+      console.log(...stat.errors);
+      return reject(err);
+    }
+
+    let buildFailed = false;
+    if (stat.compilation) {
+      for (const error of stat.compilation.errors) {
+        buildFailed = true;
+        console.error('ERROR', error);
+        console.error('ORIGINAL ERROR', error.error);
+      }
+
+      for (const warning of stat.compilation.warnings) {
+        console.warn('WARNING', warning);
+      }
+
+      if (buildFailed) {
+        return reject(new Error('Webpack errors'));
+      }
+    }
+
+    return resolve();
+  });
+});
+
+const build = async () => {
+  try {
+    console.log('building client...');
+    await runCompiler(await Promise.resolve(clientConfig));
+    console.log('building server...');
+    await runCompiler(await Promise.all([serverConfig]));
+    console.log('Done!', 'info');
+  } catch (error) {
+    console.error(error, 'error');
+  }
+};
+
+build();

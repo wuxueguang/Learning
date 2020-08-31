@@ -1,0 +1,126 @@
+#app {
+  .veer-offline-device {
+    margin-top: 25px;
+
+    .devicemode {
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      border-radius: 12px;
+      position: relative;
+
+      .devicemode-dot {
+        display: inline-block;
+        margin-right: 8px;
+        width: 5px;
+        height: 5px;
+        border-radius: 5px;
+        position: relative;
+        top: -2px;
+        color: #ccc;
+      }
+    }
+
+    .devicemode-user {
+      background-color: #dbf3d0;
+
+      .devicemode-user-dot {
+        background-color: #4cc600;
+      }
+
+      .user {
+        color: #4cc600;
+      }
+    }
+
+    .devicemode-admin {
+      background-color: #feefce;
+
+      .devicemode-admin-dot {
+        background-color: #faae00;
+      }
+
+      .admin {
+        color: #faae00;
+      }
+    }
+
+    .downloading {
+      color: #faae00;
+    }
+
+    .download_failed {
+      color: #f5222d;
+    }
+
+    .ant-table-tbody>tr>td {
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+  }
+}
+
+.active-description {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.active-code {
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+  margin-right: 40%;
+}
+
+.active-icon {
+  color: #2c8dff;
+  cursor: pointer;
+
+  span {
+    margin-left: 5px;
+  }
+}
+
+.valid {
+  color: rgba(0, 0, 0, 0.25);
+  margin-top: 10px;
+}
+
+.device-detail {
+  &-line {
+    line-height: 30px;
+    .icon-edit {
+      margin-left: 20px;
+    }
+    &-title {
+      color: rgba(0, 0, 0, 0.85);
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+
+    .edit-form{
+      display: inline;
+      .ant-input {
+        width: 60px;
+      }
+      .ant-input,
+      button {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .img {
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .ant-row {
+    text-align: center;
+  }
+
+  .ant-col {
+    margin-top: 10px;
+  }
+}
