@@ -26,8 +26,10 @@ function About() {
     }, 2000);
   }, []);
 
+  const p = {name: 'Tom'};
+
   return (
-    <Card>
+    <Card {...p}>
       <Suspense fallback={<div>Loading...</div>}>
         {showCounter && <Counter />}
       </Suspense>
