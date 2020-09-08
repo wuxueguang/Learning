@@ -7,7 +7,7 @@ import styles from './styles.less';
 
 
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Route,
   Link,
 } from 'react-router-dom';

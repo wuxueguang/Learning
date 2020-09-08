@@ -41,7 +41,7 @@
     "piral-demo": "*"
   },
   "scripts": {
-    "start": "pilet debug",
+    "start": "pilet debug --port 1111",
     "build": "pilet build",
     "upgrade": "pilet upgrade"
   },

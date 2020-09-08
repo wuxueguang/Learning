@@ -12,8 +12,8 @@ router
     await send(ctx, ctx.path.replace('/static', 'dist'));
     next();
   })
-  .get(/.*/, async (ctx, next) => {
-    ctx.response.set('Access-Control-Allow-Origin', '*');
+  .get(/.*/, async ctx => {
+    ctx.response.set('-Control-Allow-Origin', '*');
     await send(ctx, 'index.html');
     next();
   });
@@ -22,4 +22,4 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
-app.listen(7778);
+app.listen(7779);

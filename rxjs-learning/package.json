@@ -1,0 +1,24 @@
+{
+  "name": "rxjs-learning",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "rxjs": "^6.6.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "babel-loader": "^8.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

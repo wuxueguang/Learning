@@ -10,7 +10,7 @@
     "siteless": "^0.11.8"
   },
   "scripts": {
-    "start": "piral debug",
+    "start": "piral debug --port 1112",
     "build": "piral build"
   },
   "app": "./src/index.html",

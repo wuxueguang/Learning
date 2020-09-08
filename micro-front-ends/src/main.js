@@ -24,15 +24,16 @@ registerMicroApps([
     container: '#container1',
     activeRule: location => location.pathname.startsWith('/app1'),
   },
-  // {
-  //   name: 'react app2',
-  //   entry: { scripts: ['/dist/d.js'] },
-  //   container: '#container2',
-  //   activeRule: location => location.pathname.startsWith('/app2'),
-  // },
+  {
+    name: 'vue app2',
+    entry: 'http://localhost:7779',
+    container: '#container2',
+    activeRule: location => location.pathname.startsWith('/app2'),
+  },
 ]);
 
 start();
+// start({sandbox: { strictStyleIsolation: true }});
 
 
 

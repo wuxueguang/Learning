@@ -1,0 +1,14 @@
+{
+  "presets": [
+      "@babel/preset-env"
+  ]
+  // "plugins": [
+  //     "syntax-dynamic-import",
+  //     "@babel/plugin-transform-runtime",
+  //     "@babel/plugin-proposal-object-rest-spread",
+  //     [ "import", {
+  //         "libraryName": "antd",
+  //         "style": "css"
+  //     }, "ant"],
+  // ]
+}
