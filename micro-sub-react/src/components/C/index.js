@@ -17,7 +17,7 @@ function Home() {
 }
 
 function About() {
-  const Counter = React.lazy(() => import('../Counter'));
+  // const Counter = React.lazy(() => import('../Counter'));
   const [showCounter, setShowCounter] = useState(false);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ function About() {
   return (
     <Card {...p}>
       <Suspense fallback={<div>Loading...</div>}>
-        {showCounter && <Counter />}
+        {/* showCounter && <Counter />*/}
       </Suspense>
       <Button type="primary">About</Button>
       <DatePicker />
@@ -46,7 +46,7 @@ function Users() {
 
 const App = () => {
   return (
-    <Router basename={location.pathname}>
+    <Router basename='/p1'>
       <div className="test">
         <nav>
           <ul>

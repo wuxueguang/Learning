@@ -2,8 +2,8 @@ import './core/polyfill';
 import '@@/core/devScripts';
 import { plugin } from './core/plugin';
 import { createHistory } from './core/history';
-import { ApplyPluginsType } from '/Users/wuxueguang/Desktop/node_modules/umi/node_modules/@umijs/runtime';
-import { renderClient } from '/Users/wuxueguang/Desktop/node_modules/umi/node_modules/@umijs/renderer-react/dist/index.js';
+import { ApplyPluginsType } from '/Users/wuxueguang/.config/yarn/global/node_modules/@umijs/runtime';
+import { renderClient } from '/Users/wuxueguang/.config/yarn/global/node_modules/@umijs/renderer-react/dist/index.js';
 
 
 
@@ -29,7 +29,7 @@ export default clientRender();
 
 
     window.g_umi = {
-      version: '3.1.1',
+      version: '3.1.2',
     };
   
 

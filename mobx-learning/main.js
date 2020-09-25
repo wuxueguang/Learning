@@ -21,3 +21,14 @@ disposer();
 const disposer2 = observe(person, "lastName", (change) => {
     console.log("LastName changed to ", change.newValue);
 });
+
+
+
+
+import { observable } from "mobx";
+
+class Todo {
+    id = Math.random();
+    @observable title = "";
+    @observable finished = false;
+}

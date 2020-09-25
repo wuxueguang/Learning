@@ -11,5 +11,8 @@
   "dependencies": {
     "@ant-design/pro-table": "^2.2.7",
     "antd": "^4.2.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2"
   }
 }

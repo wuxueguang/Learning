@@ -1,4 +1,4 @@
-import { ApplyPluginsType } from '/Users/wuxueguang/Desktop/node_modules/umi/node_modules/@umijs/runtime';
+import { ApplyPluginsType } from '/Users/wuxueguang/.config/yarn/global/node_modules/@umijs/runtime';
 import { plugin } from './plugin';
 
 const routes = [

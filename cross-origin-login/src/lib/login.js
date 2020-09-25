@@ -1,3 +1,6 @@
+
+import axios from 'axios';
+
 import {
     LOGOUT,
     TO_LOGIN,
@@ -11,11 +14,11 @@ import {
     emptyFunc
 } from '../utils';
 
+import { loginSystemOrigin, loginUrl, logoutUrl } from './consts';
+
 const _winDOMContentLoaded = new Promise(resolve => window.addEventListener('DOMContentLoaded', resolve));
 
-const _targetDomain = 'http://localhost:8000';
 const _iframe = document.createElement('iframe');
-_iframe.src = `${_targetDomain}/iframe.html`;
 _iframe.style.display = 'none';
 
 let _iframeWin;
@@ -30,41 +33,57 @@ const _iframeLoad = new Promise(async resolve => {
     _iframe.addEventListener('load', resolve);
 });
 
-const _handleMessageEvent = async (userInfoReachedHandler = emptyFunc, noLoginHandler = emptyFunc) => { 
+let userInfoReachedHandler = emptyFunc;
+let noUserInfoReachedhandler = emptyFunc;
+const _handleMessageEvent = async () => { 
     window.addEventListener('message', function handler({ data: { type, token, userInfo } }){
         const types = [USER_INFO_REACHED, NO_LOGIN];
         type === types[0] && userInfoReachedHandler({token, userInfo});
-        type === types[1] && noLoginHandler();
+        type === types[1] && noUserInfoReachedhandler();
         types.includes(type) && window.removeEventListener('message', handler);
     });
 };
 
 
+const init = async (cfg, cb1, cb2) => {
+    _iframe.src = `${cfg.loginSystemOrigin}/iframe.html?from=${escape(location.origin)}`;
 
-const init = async (cb1, cb2) => {
-    _handleMessageEvent(cb1, cb2);
+
+
+
+
+    userInfoReachedHandler = cb1;
+    noUserInfoReachedhandler = cb2;
+    _handleMessageEvent();
     await _iframeLoad;
-    _iframeWin.postMessage({type: TO_FETCH_USER_INFO}, _targetDomain);
+    _iframeWin.postMessage({type: TO_FETCH_USER_INFO}, loginSystemOrigin);
 };
 
+
 const login = async (name, password, cb1, cb2) => {
-    _handleMessageEvent(cb1, cb2);
+    userInfoReachedHandler = userInfoReachedHandler || cb1;
+    noUserInfoReachedhandler = noUserInfoReachedhandler || cb2;
+    _handleMessageEvent();
     await _iframeLoad;
     _iframeWin.postMessage({
         userInfo: {name, password},
         type: TO_LOGIN,
-    }, _targetDomain);
+    }, loginSystemOrigin);
 };
 
+
+let _logoutHandler;
 const logout = async cb => {
-    window.addEventListener('message', function handler(e){
+    window.removeEventListener('message', _logoutHandler);
+    _logoutHandler = e => {
         if(e.data.type === LOGOUT){
             cb();
             window.removeEventListener('message', handler);
         }
-    });
+    };
+    window.addEventListener('message', _logoutHandler);
     await _iframeLoad;
-    _iframeWin.postMessage({type: TO_LOGOUT}, _targetDomain);
+    _iframeWin.postMessage({type: TO_LOGOUT}, loginSystemOrigin);
 };
 
 export {

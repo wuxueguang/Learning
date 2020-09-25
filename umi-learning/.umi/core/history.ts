@@ -1,4 +1,4 @@
-import { createBrowserHistory } from '/Users/wuxueguang/Desktop/node_modules/umi/node_modules/@umijs/runtime';
+import { createBrowserHistory } from '/Users/wuxueguang/.config/yarn/global/node_modules/@umijs/runtime';
 
 let options = {
   "basename": "/"

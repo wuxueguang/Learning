@@ -7,15 +7,13 @@ const app = new Koa();
 const router = new Router();
 
 router
-  .get(/static\/.*/, async (ctx, next) => {
+  .get(/static\/.*/, async ctx => {
     ctx.response.set('Access-Control-Allow-Origin', '*');
     await send(ctx, ctx.path.replace('/static', 'dist'));
-    next();
   })
   .get(/.*/, async ctx => {
-    ctx.response.set('-Control-Allow-Origin', '*');
+    ctx.response.set('Access-Control-Allow-Origin', '*');
     await send(ctx, 'index.html');
-    next();
   });
 
 app
