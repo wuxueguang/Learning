@@ -1,0 +1,108 @@
+/* eslint-disable no-undef */
+
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  mode: process.env.NODE_ENV,
+  entry: {
+    main: './src/main.jsx',
+    dashboard: './src/components/Dashboard/index.jsx',
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/static/',
+  },
+  module: {
+    rules: [{
+      test: /\.html$/,
+      loader: 'html-loader',
+    }, {
+      test: /\.(png|jpg|gif)$/,
+      use: [{
+        loader: 'file-loader',
+        options: {}
+      }],
+    }, {
+      test: /\.tsx?$/,
+      loader: [ 'ts-loader'],
+      exclude: /(node_modules|bower_components)/,
+    }, {
+      test: /\.jsx?$/,
+      loader: [ 'babel-loader'],
+      exclude: /(node_modules|bower_components)/,
+    }, {
+      test: /\.css$/,
+      loader: ['style-loader', 'css-loader'],
+    }, {
+      test: /\.scss$/,
+      use: [{
+        loader: 'style-loader',
+      }, {
+        loader: 'css-loader',
+        options: {
+          modules: true,
+        },
+      }, {
+        loader: 'sass-loader',
+      }],
+    }, {
+      test: /\.less$/,
+      use: [{
+        loader: 'style-loader'
+      }, {
+        loader: 'css-loader',
+      }, {
+        loader: 'less-loader',
+        options: {
+          lessOptions: {
+            javascriptEnabled: true,
+          },
+        }
+      }],
+    }]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: '杏树林综合后台',
+      filename: 'index.html',
+      chunks: ['runtime', 'main'],
+      template: path.resolve(__dirname, 'index.html'),
+    }),
+  ],
+  performance: {
+    hints: "warning", // 枚举
+    maxAssetSize: 30000000, // 整数类型（以字节为单位）
+    maxEntrypointSize: 50000000, // 整数类型（以字节为单位）
+    assetFilter: function(assetFilename) {
+      // 提供资源文件名的断言函数
+      return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
+      
+      }
+  },
+  optimization: {
+    runtimeChunk: {
+      name: 'runtime'
+    },
+    minimizer: [],
+    splitChunks: {
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
+};

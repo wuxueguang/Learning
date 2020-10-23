@@ -5,6 +5,10 @@ module.exports = {
     entry: {
         'main': './src/main.js',
         'iframe': './src/iframe.js',
+        'vendor': [
+            'lodash',
+            'react',
+        ],
     },
     output: {
         filename: '[name].js',
@@ -17,6 +21,14 @@ module.exports = {
             loader: 'babel-loader',
         }]
     },
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'manifest'
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vender'
+        }),
+    ],
     optimization: {
         runtimeChunk: {
             name: 'runtime'
