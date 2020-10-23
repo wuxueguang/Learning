@@ -17,7 +17,7 @@ export default [{
   input: 'src/main.js',
   output: {
     name: 'bundle.js',
-    file: 'src/bundle.js',
+    file: '../mmcp/src/client/components/Dashboard.js',
     format: 'umd',
   },
   plugins: [
@@ -46,5 +46,9 @@ export default [{
     // sass(),
     json(),
   ],
-  
+  external: ['react', 'antd'],
+  global:{
+    'react':'React',              //告诉rollup 全局变量$即是jquery
+    'antd': 'antd',
+  },
 }];
