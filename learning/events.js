@@ -1,12 +1,14 @@
-const eTarget = new EventTarget();
+// const eTarget = new EventTarget();
 
-eTarget.addEventListener('test', e => {
-    e.preventDefault();
-    console.log('test');
-});
+// eTarget.addEventListener('test', e => {
+//     e.preventDefault();
+//     console.log('test');
+// });
 
-const testEvent = new Event('test', {
-    cancelable: true
-});
+// const testEvent = new Event('test', {
+//     cancelable: true
+// });
 
-eTarget.dispatchEvent(testEvent);
+// eTarget.dispatchEvent(testEvent);
+
+alert(1)

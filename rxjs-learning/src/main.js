@@ -1,38 +1,56 @@
 import * as Rx from "rxjs";
 import * as Os from "rxjs/operators";
+import logger from '@zhizhu/color-log';
+// import R from 'ramda';
 
-const { Observable } = Rx;
- 
-const foo = new Observable(subscriber => {
-  console.log('Hello');
-  subscriber.next(42);
-  setTimeout(() => {
-    subscriber.next(423);
-    subscriber.error(new Error('error'))
-  }, 3000);
-});
- 
-foo.pipe(Os.catchError(e => Rx.of([1]))).subscribe({
-  next: x => console.log(x),
-  error: error => console.log(error)
-});
-foo.subscribe(y => {
-  console.log(y);
-});
+// import { createStore } from '@zhizhu/utils/mobx';
+
+// console.log(createStore)
+
+/* import 'antd/dist/antd.less'; */  
+
+// function* t(){}
+// const a = async () => {}
+
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { render } from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+const Input = props => {
+  return <input ref={props.myRef} />
+};
+
+const Test = () => {
+  const ref = useRef();
+
+  setInterval(() => {
+    console.log(ref.current.value, '----');
+  }, 1000);
+
+  return (
+    <div>
+      <Input myRef={ref} />
+    </div>
+  )
+};
+
+render((
+  <Test />
+), document.getElementById('root'));
 
 /*
 const t$ = Rx
   .from(new Promise(resolve => {
-    console.log('-=-=-=-=-');
+    logger('-=-=-=-=-');
     resolve(111)
   }))
   .pipe(Os.map(v => {
-    console.log('pipe')
+    logger('pipe')
     return v;
   }))
   
-t$.subscribe(v => console.log(v))
-t$.subscribe(v => console.log(v))
+t$.subscribe(v => logger(v))
+t$.subscribe(v => logger(v))
 */
 
 
@@ -51,19 +69,19 @@ Rx
   //   throw new Error;
   // }))
   .pipe(Os.tap(
-    args => console.log(args),
-    err => console.log(err),
-    () => console.log('completed'),
+    args => logger(args),
+    err => logger(err),
+    () => logger('completed'),
   ))
-  .subscribe(v => console.log(v, '==='))
+  .subscribe(v => logger(v, '==='))
 */
 
 
 // Rx.of(1,2,3).pipe((...args) => {
-//   console.log(args);
+//   logger(args);
 //   return args[0];
 // }).subscribe((...args) => {
-//   console.log(args);
+//   logger(args);
 // })
 
 
@@ -77,34 +95,34 @@ Rx
 // Rx
 //   .from([getOber(1000), getOber(2000), getOber(3000), getOber(4000)])
 //   .pipe(Os.mergeAll())
-//   .subscribe(item => console.log(item));
+//   .subscribe(item => logger(item));
 
 // Rx
 //   .from(Promise.resolve({name: 'Jack'}))
 //   .pipe(
 //     arg => {
-//       console.log(arg)
+//       logger(arg)
 //       return Os.pluck('name')(arg);
 //     },
-//     Os.tap(console.log),
+//     Os.tap(logger),
 //     Os.catchError(err => {
-//       console.log(err, '=====');
+//       logger(err, '=====');
 //       return 'abc'
 //     }),
 //   )
-//   .subscribe(v => console.log(v, '-----'))
+//   .subscribe(v => logger(v, '-----'))
 
-//   // console.log(Os)
+//   // logger(Os)
 
 // Rx
 //   .defer(() => Rx.from('333'))
 //   .pipe()
-//   .subscribe(data => console.log(data))
+//   .subscribe(data => logger(data))
 
 
 
 // const foo = Rx.Observable.create(observer => {
-//   console.log('-=-==--=');
+//   logger('-=-==--=');
 //   observer.next(1);
 //   observer.next(2);
 //   observer.complete();
@@ -115,25 +133,25 @@ Rx
 
 // foo.subscribe({
 
-//   next(value) { console.log(value) ;},
+//   next(value) { logger(value) ;},
   
-//   complete() { console.log('completed');},
+//   complete() { logger('completed');},
   
 //   error(err) { console.error(err); }
   
 // });
-// foo.subscribe(v => console.log(v));
+// foo.subscribe(v => logger(v));
 // var subject = new Rx.Subject();
 
 // subject.subscribe({
 
-//   next: (v) => console.log('observerA: ' + v)
+//   next: (v) => logger('observerA: ' + v)
 
 //   });
 
 //   subject.subscribe({
 
-//   next: (v) => console.log('observerB: ' + v)
+//   next: (v) => logger('observerB: ' + v)
 
 // });
 
@@ -152,31 +170,105 @@ Rx
 //   .pipe(
 //     Os.pluck('target', 'value'),
 //     Os.switchMap(w => height$.pipe(Os.map(h => w * h)))
-//   ).subscribe(area => console.log(area));
+//   ).subscribe(area => logger(area));
 
+/* 
 let left = 0;
 let middle = 0;
 let right = 0;
+
 let counter = 0;
 
-const btnLeft$ = Rx
-  .fromEvent(document.getElementById('btn-left'), 'click')
-  .pipe(
-    Os.map(() => ++left),
-    Os.takeWhile(v => v < 5),
-    Os.map(() => `left: ${left}`),
-    Os.tap(
-      v => console.log(v),
-      null,
-      v => console.log('completed', v),
-    )
-  );
-const btnMiddle$ = Rx.fromEvent(document.getElementById('btn-middle'), 'click').pipe(Os.map(() => `middle ${++middle}`));
-const btnRight$ = Rx.fromEvent(document.getElementById('btn-right'), 'click').pipe(Os.map(() => `right ${++right}`));
+const btnLeft$ = Rx.fromEvent(document.getElementById('btn-left'), 'click')
+  .pipe(Os.mapTo(`left ${++left}`));
+const btnMiddle$ = Rx.fromEvent(document.getElementById('btn-middle'), 'click')
+  .pipe(Os.map(() => `middle ${++middle}`));
+const btnRight$ = Rx.fromEvent(document.getElementById('btn-right'), 'click')
+  .pipe(Os.map(() => `right ${++right}`));
 
-Rx
-  .concat(btnLeft$, btnMiddle$, btnRight$)
-  .subscribe(v => console.log(v))
+
+const p1 = new Promise(resolve => {
+  setTimeout(() => {
+    resolve('left');
+  }, 1000);
+});
+const p2 = new Promise(resolve => {
+  setTimeout(() => {
+    resolve('right');
+  }, 500);
+});
+const p1$ = Rx.from(p1);
+const p2$ = Rx.from(p2);
+
+
+ajax().then(d1 => {
+  return ajax(d1);
+}).then(d2 => {
+  console.log(d2);
+});
+
+ajax$().pipe(mergeMap(d1 => {
+  return ajax$(d1);
+})).subscribe(d2 => {
+  console.log(d2);
+});
+
+
+p1.then(d1 => p2.then(d2 => [d1, d2])).then(data => console.log(data));
+
+p1$.pipe(Os.mergeMap(p1 => p2$.pipe(Os.map(p2 => [p1, p2])))).subscribe(data => console.log(data));
+
+
+p1$.pipe(Os.switchMap(p1 => p2$.pipe(Os.map(p2 => [p1, p2])))).subscribe(data => console.log(data));
+
+
+
+
+let char = 'a';
+let str = 'abcd';
+
+function logByChar(str){
+  str.split('').forEach(char => console.log(char));
+}
+
+logByChar(str);
+
+console.log(char); */
+
+
+
+
+// btnLeft$
+//   .pipe(
+//     Os.mergeMap(left => btnMiddle$.pipe(Os.map(mid => [left, mid])))
+//   )
+//   .subscribe(data => console.log(data))
+
+// Rx
+//   .zip(btnLeft$, btnMiddle$)
+//   .subscribe(data => console.log(data));
+
+
+// Rx.from(new Promise(resolve => {
+//   setTimeout(() => {
+//     resolve('1111111');
+//   }, 1000);
+// })).pipe(Os.switchMap(data => {
+//   return new Promise(resolve => {
+//     setTimeout(() => {
+//       resolve([data, '22222222']);
+//     }, 1000);
+//   })
+// })).pipe(Os.switchMap(data => {
+//   return new Promise(resolve => {
+//     setTimeout(() => {
+//       resolve([...data, '3333333']);
+//     }, 1000);
+//   })
+// })).subscribe(data => console.log(data))
+// Rx
+//   .concat(btnLeft$, btnMiddle$, btnRight$)
+//   .subscribe(v => logger(v))
 
 /*
 const timer1 = Rx.interval(1000).pipe(
@@ -193,35 +285,35 @@ const timer3 = Rx.interval(500).pipe(
 );
  
 const result = Rx.concat(timer1, timer2, timer3);
-result.subscribe(x => console.log(x));
+result.subscribe(x => logger(x));
 */
 
-// timer1.subscribe(v => console.log(v))
+// timer1.subscribe(v => logger(v))
 
 // const p$ = Rx.from(new Promise(resolve => {
-//   console.log(++counter, '-------');
+//   logger(++counter, '-------');
 //   resolve(counter);
 // }));
 // Rx
 //   .merge(btnLeft$, btnRight$)
-//   .subscribe(v => console.log(v))
+//   .subscribe(v => logger(v))
 
 // btnLeft$
 //   // .pipe(Os.map(() => ++left))
 //   .pipe(Os.mergeMap(() => btnRight$.pipe(
 //     Os.map(() => [left, right])
 //   )))
-//   .subscribe( v => console.log(v))
+//   .subscribe( v => logger(v))
 
 
 // p$
 //   .pipe(
 //     Os.retry(v => {
-//       console.log(v < 10);
+//       logger(v < 10);
 //       return v < 10;
 //     })
 //   )
-//   .subscribe(v => console.log(v, '======='))
+//   .subscribe(v => logger(v, '======='))
 
 // Rx
 //   .from([10, 20, 30])
@@ -230,7 +322,7 @@ result.subscribe(x => console.log(x));
 //       Os.map(() => [++counter * v, counter]),
 //     )),
 //   )
-//   .subscribe(v => console.log(v));
+//   .subscribe(v => logger(v));
 
 // Rx
 //   .from([10, 20, 30])
@@ -239,18 +331,18 @@ result.subscribe(x => console.log(x));
 //       Os.map(() => [++counter * v, counter]),
 //     )),
 //   )
-//   .subscribe(v => console.log(v));
+//   .subscribe(v => logger(v));
 
 
 // Rx.from([{name: 'John', age: 13}])
-//   .subscribe(obj => console.log(obj))
+//   .subscribe(obj => logger(obj))
 
 
-  // document.getElementById('btn').addEventListener('click', function(e){console.log(this === e.currentTarget, this === e.target)})
+  // document.getElementById('btn').addEventListener('click', function(e){logger(this === e.currentTarget, this === e.target)})
 
 // Rx
 //   .zip(width$, height$, (w, h) => w * h)
-//   .subscribe(area => console.log('面积：', area));
+//   .subscribe(area => logger('面积：', area));
 
 
 
@@ -260,7 +352,7 @@ result.subscribe(x => console.log(x));
 //   .pipe(
 //     Os.switchMap(a => Rx.of(4, 5).pipe(Os.map(b => `${a} | ${b}`)))
 //   )
-//   .subscribe(v => console.log(v))
+//   .subscribe(v => logger(v))
 
 
   
