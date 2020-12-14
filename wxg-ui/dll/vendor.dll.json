@@ -2,5 +2,6 @@
   "react",
   "prop-types",
   "react-dom",
-  "styled-components"
+  "styled-components",
+  "antd"
 ]

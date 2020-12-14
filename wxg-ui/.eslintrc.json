@@ -1,5 +1,5 @@
 {
-    "ignorePatterns": ["dist", "webpack"],
+    "ignorePatterns": ["dist", "_webpack"],
     "env": {
         "browser": true,
         "es2021": true
