@@ -1,24 +1,23 @@
 const path = require('path');
 
 module.exports = {
-    mode: 'development',
+    mode: process.env.NODE_ENV,
     entry: {
         'main': './src/main.js'
     },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: '/static/',
     },
     module: {
-        rules: [{
-            test: /\.m?js$/,
-            exclude: /(node_modules|bower_components)/,
-            loader: 'babel-loader',
-        }, {
-            test: /\.less$/,
-            exclude: /(node_modules|bower_components)/,
-            loader: 'less-loader',
-        }]
+        rules: [
+            {
+                test: /\.jsx?$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel-loader',
+            }
+        ]
     },
     optimization: {
         runtimeChunk: {
@@ -27,5 +26,10 @@ module.exports = {
     },
     resolve: {
         extensions: ['.js', '.jsx'],
-    }
+    },
+    devServer: {
+        contentBase: path.join(__dirname),
+        compress: true,
+        port: 9000,
+    },
 };

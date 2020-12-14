@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import C from './components/UseEffectTest';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import styled from 'styled-components';
 
-// const TT = () => {
-//   let [counter, setCounter] = useState(0);
+const Container = styled.div`
+  background-color: ${props => props.bgColor};
 
-//   setTimeout(() => {
-//     setCounter(counter + 1);
-//   }, 1000);
+  & .test{
+    color: green;
+  }
+`;
 
-//   return <C counter={counter} />
-// }
+Container.defaultProps = {
+  bgColor: 'yellow',
+};
 
-ReactDOM.render(<PageHeaderWrapper><C /></PageHeaderWrapper>, document.getElementById('root'));
+const App = () => (
+  <Container>
+    <span className="test">test</span>
+  </Container>
+);
+
+ReactDOM.render(<App/>, document.getElementById('root'));
