@@ -1,37 +1,20 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-    mode: 'development',
-    entry: {
-        'main': './src/main.js',
-        'iframe': './src/iframe.js',
-        'vendor': [
-            'lodash',
-            'react',
-        ],
+  mode: 'development',
+  entry: {
+    main: './src/main.js',
+  },
+  output: {
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist'),
+    library: 'MyLibrarys',
+    libraryTarget: 'var',
+  },
+  optimization: {
+    runtimeChunk: {
+      name: 'runtime',
     },
-    output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, 'dist'),
-    },
-    module: {
-        rules: [{
-            test: /\.m?js$/,
-            exclude: /(node_modules|bower_components)/,
-            loader: 'babel-loader',
-        }]
-    },
-    plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'manifest'
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vender'
-        }),
-    ],
-    optimization: {
-        runtimeChunk: {
-            name: 'runtime'
-        }
-    }
+  },
 };
