@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <title><%= htmlWebpackPlugin.options.title %></title>
+
+  <script>
+    /* 移动端1px问题 */
+    var pixel = 1 / Math.ceil(window.devicePixelRatio);
+    var metaStr = '<meta name="viewport" content="width=device-width,initial-scale=' + pixel + ',' + 'minimum-scale=' + pixel + ',' + 'maximum-scale=' + pixel + '">';
+    document.write(metaStr);
+  </script>
+  <script type="text/javascript">
+    /* rem设置 */
+    var html = document.querySelector('html');
+    var width = html.getBoundingClientRect().width;
+    html.style.fontSize = width / 16 + 'px';
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>

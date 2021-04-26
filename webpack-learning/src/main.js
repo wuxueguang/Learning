@@ -1,3 +1,3 @@
-define(function(require, exports, module) {
-  exports.count = 2;
-});
+import a from './a';
+
+console.log(a);

@@ -1,80 +1,56 @@
 
-
-import React, { Suspense, useEffect, useState, lazy } from 'react';
-import { Input } from 'antd';
+import React, { useState, cloneElement, Children, useEffect } from 'react';
 import { render } from 'react-dom';
-
-// const Button = React.lazy(() => import('./components/Button'));
-
-// const Tick = props => {
-//   console.log('testasdasdsdfsdf');
-//   return (
-//     <Suspense fallback="Lazy component is loading ...">
-//       <Button
-//         type="primary"
-//         onClick={() => {
-//           alert(1);
-//         }}
-//       >sdfsdfsd</Button>
-//     </Suspense>
-//   );
-// };
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 
+const Ticker = props => {
 
-// class Component{
+  return Children.map(props.children, child => {
+    // console.log(child);
+    return cloneElement(child, {onClick: () => {
+      console.log('在原来事件handler前增加一些逻辑')
+      child.props.onClick();
+      console.log('在原来事件handler后增加一些逻辑')
+    }})
+  });
+};
 
+const RichEditer = () => {
+  const [value, setValue] = useState('');
 
-// }
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
 
-
-
-
-// class Ticker extends React.PureComponent{
-//   constructor(props){
-//     super(props);
-//     this.state = {
-//       list: [],
-//       count: 0,
-//     }
-//   }
-
-//   componentDidMount(){
-//     setInterval(() => {
-//       const { list, count } = this.state;
-//       const item = Math.random();
-//       console.log(item);
-//       list.push(item);
-//       this.setState({count: count + 1});
-//     }, 1000);
-//   }
-
-//   render(){
-//     return (
-//       <ul>
-//         {this.state.list.map(item => <li key={item}>{item}</li>)}
-//       </ul>
-//     );
-//   }
-// }
-
-
-const Ticker = () => {
-  const [list, setList] = useState([{a: {b: {c: 'c'}}}]);
-  const [count, setCount] = useState(0);
-
-  setTimeout(() => {
-    list[0].a.b.c = 'cccc';
-    setCount(list.length);
-  }, 1000);
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image'],
+      ['clean']
+    ],
+  };
 
   return (
-    <span>{list[0].a.b.c}</span>
+    <ReactQuill theme="snow" value={value} onChange={setValue} modules={modules}/>
   );
 };
 
+const str = '<input name="userName" class="textcss" id="userName" type="text" value="abc"/><script>alert("1")</script>"/>';
 
-render(<Ticker/>, document.getElementById('root'));
+
+render((
+  <>
+    <Ticker>
+      <div onClick={() => console.log(111)}>test</div>
+    </Ticker>
+    <RichEditer/>
+    <div dangerouslySetInnerHTML={{__html: str}}></div>
+  </>
+), document.getElementById('root'));
 
 
 

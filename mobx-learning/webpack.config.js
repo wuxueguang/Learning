@@ -3,21 +3,19 @@ const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
+    mode: 'development',
     entry: {
-        'main': './src/main',
-        'vender': [
-            'react',
-            'react-dom',
-            'mobx',
-        ],
+        'main': ['./src/main'],
+        // 'vender': [
+        //     'react',
+        //     'react-dom',
+        //     'mobx',
+        // ],
     },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/static/',
-        // library: `${packageName}-[name]`,
-        // libraryTarget: 'umd',
-        // jsonpFunction: `webpackJsonp_${packageName}`,
     },
     resolve: {
         extensions: ['.js', '.jsx'],
@@ -56,7 +54,7 @@ module.exports = {
     //     }
     // },
     plugins: [
-        new CleanWebpackPlugin(),
+        // new CleanWebpackPlugin(),
         // new webpack.HashedModuleIdsPlugin(),
         // new webpack.optimize.CommonsChunkPlugin({
         //     name: 'manifest'
@@ -65,9 +63,9 @@ module.exports = {
         //     name: 'vender'
         // }),
     ],
-    devServer: {
-        contentBase: path.join(__dirname),
-        compress: true,
-        port: 9000,
-    },
+    // devServer: {
+    //     contentBase: path.join(__dirname),
+    //     compress: true,
+    //     port: 9000,
+    // },
 };
