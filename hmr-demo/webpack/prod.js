@@ -7,42 +7,43 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const baseCfg = require('./base');
 
 module.exports = {
-	...baseCfg,
+  ...baseCfg,
 
-	mode: process.env.NODE_ENV || 'production',
+  mode: process.env.NODE_ENV || 'production',
 
-	output: {
-		...baseCfg.output,
-		filename: '[name].[hash].js',
-	},
+  output: {
+    ...baseCfg.output,
+    filename: '[name].[hash].js',
+  },
 
-	plugins: [
-		...baseCfg.plugins,
+  plugins: [
+    ...baseCfg.plugins,
 
-		new webpack.DllReferencePlugin({
-			context: path.join(__dirname, '..'),
-			manifest: require(path.join(__dirname, '../.temp/vendor.manifest.json')),
-		}),
+    new webpack.DllReferencePlugin({
+      context: path.join(__dirname, '..'),
+      manifest: require(path.join(__dirname, '../.temp/vendor.manifest.json')),
+    }),
 
-		new webpack.EnvironmentPlugin({
-			NODE_ENV: 'production', // use 'production' unless process.env.NODE_ENV is defined
-			DEBUG: false
-		}),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production', // use 'production' unless process.env.NODE_ENV is defined
+      DEBUG: false
+    }),
 
-		new HtmlWebpackPlugin({
-			filename: 'entry.html',
-			template: './.temp/index.html',
-		}),
-	],
+    new HtmlWebpackPlugin({
+      title: 'HMR demo',
+      filename: 'entry.html',
+      template: './.temp/entry.min.html',
+    }),
+  ],
 
-	optimization: {
-		...baseCfg.optimization,
+  optimization: {
+    ...baseCfg.optimization,
 
-		minimize: true,
-	},
+    minimize: true,
+  },
 
-	performance: {
-		maxEntrypointSize: 40000000,
-		maxAssetSize: 10000000,
-	},
+  performance: {
+    maxEntrypointSize: 40000000,
+    maxAssetSize: 10000000,
+  },
 };

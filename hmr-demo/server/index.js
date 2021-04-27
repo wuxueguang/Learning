@@ -16,10 +16,10 @@ console.log('server start');
 const isDev = process.argv[2] === 'server code change';
 const port = isDev ? serverPort : process.env.SERVER_PORT || 80;
 kill(port).then(() => {
-	app.listen(port, (err) => {
-		isDev || console.log(`应用已经启动，http://localhost:${port}`);
-		if(err){
-			console.log(err);
-		}
-	});
+  app.listen(port, (err) => {
+    isDev || console.log(`应用已经启动，http://localhost:${port}`);
+    if(err){
+      console.log(err);
+    }
+  });
 });

@@ -17,9 +17,9 @@ const items = module.exports = new Map;
 
 items.set(/^\/proxied\/3001\//, {
 
-	method: 'get',
-	headers: {test: 'test', cookie: 'sdfsdf'},
+  method: 'get',
+  headers: {test: 'test', cookie: 'sdfsdf'},
 
-	host: 'http://localhost:3002',
-	map: path => path.replace('/proxied/3001', '/api'),
+  host: 'http://localhost:3002',
+  map: path => path.replace('/proxied/3001', '/api'),
 });
