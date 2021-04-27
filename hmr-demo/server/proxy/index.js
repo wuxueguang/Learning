@@ -1,28 +1,23 @@
 
 const Router = require('@koa/router');
 const proxy = require('koa-proxy');
-const { middleware } = require('../routers');
 
-const proxyMap = require('./proxies'); 
+const proxyMap = require('./proxies');
 
 const router = new Router;
 
-const createProxyMiddleware = ({
-  method,
-  headers,
-  ...cfg
-}) => (ctx, next) => {
-  ctx.req.headers = {
-    ...ctx.req.headers,
-    ...headers,
-    cookie: ctx.req.headers.cookie,
-  };
+const createProxyMiddleware = ({ headers, ...cfg }) => (ctx, next) => {
+	ctx.req.headers = {
+		...ctx.req.headers,
+		...headers,
+		cookie: ctx.req.headers.cookie,
+	};
 
-  return proxy(cfg)(ctx, next);
+	return proxy(cfg)(ctx, next);
 };
 
 for(const [path, cfg] of proxyMap){
-  router[cfg.method || 'get'](path, createProxyMiddleware(cfg))
+	router[cfg.method || 'get'](path, createProxyMiddleware(cfg));
 }
 
 module.exports = router.routes();

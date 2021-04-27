@@ -9,7 +9,7 @@ const baseCfg = require('./base');
 module.exports = {
 	...baseCfg,
 
-	mode: 'production',
+	mode: process.env.NODE_ENV || 'production',
 
 	output: {
 		...baseCfg.output,

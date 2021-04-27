@@ -1,16 +1,14 @@
 const path = require('path');
-const entrys = require('./entry');
 
 module.exports = {
 
 	entry: {
-		...entrys,
-		main: './src/main',
+		main: ['./src/main'],
 	},
 
 	output: {
 		filename: '[name].bundle.js',
-		path: path.resolve(__dirname, '../dist'),
+		path: path.join(__dirname, '../dist'),
 		publicPath: '/static/',
 	},
 
@@ -20,6 +18,14 @@ module.exports = {
 				test: /\.jsx?$/,
 				exclude: /(node_modules|bower_components)/,
 				loader: 'babel-loader',
+			},
+			{
+				test: /\.css$/,
+				use: [{
+					loader: 'style-loader'
+				}, {
+					loader: 'css-loader',
+				}],
 			},
 			{
 				test: /\.less$/,

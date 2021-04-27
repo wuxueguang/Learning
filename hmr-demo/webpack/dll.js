@@ -6,15 +6,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const baseCfg = require('./base');
 
+const { NODE_ENV } = process.env;
+
 module.exports = {
-	mode: 'production',
+
+	mode: NODE_ENV || 'production',
 
 	entry: {
 		vendor: require('../dll/vendor.dll.json'),
 	},
 
 	output: {
-		filename: '[name].dll.[hash].js',
+		filename: NODE_ENV === 'production' ? '[name].dll.[hash].js' : '[name].dll.js',
 		path: path.join(__dirname, '../dist'),
 		publicPath: baseCfg.output.publicPath,
 		// library必须和后面dllplugin中的name一致 后面会说明

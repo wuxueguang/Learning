@@ -1,0 +1,10 @@
+[
+  "react",
+  "prop-types",
+  "styled-components",
+  "react-dom",
+  "react-router-dom",
+  "antd",
+  "mobx",
+  "mobx-react"
+]
