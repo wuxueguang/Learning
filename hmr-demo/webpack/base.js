@@ -48,7 +48,7 @@ module.exports = {
         use: 'file-loader',
       },
       {
-        test: /\.(png|jpg|gif|webp)$/,
+        test: /\.(png|jpg|jpeg|gif|webp)$/,
         exclude: [
           /\.html$/,
           /\.(js|jsx|ts|tsx)$/,

@@ -1,23 +1,26 @@
+import 'antd/dist/antd.css';
 
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { Modal } from 'antd';
 import { observer, inject, Provider } from 'mobx-react';
 import store from './store';
 import { Image } from '@/components';
-import Zmage from 'react-zmage';
 
-const imgUrl = 'https://qa-feedback.xingshulinimg.com/1619323948925?e=4211517793&token=a0h5P_uSX_opuu0veh0W3gBYxunaVmIjpgQur9BM:A8Pn0p4yA2j6HI-4odiGCy5PLu8=';
-
+const imgUrl1 = 'https://qa-feedback.xingshulinimg.com/1619323948925?e=4211517793&token=a0h5P_uSX_opuu0veh0W3gBYxunaVmIjpgQur9BM:A8Pn0p4yA2j6HI-4odiGCy5PLu8=';
+const imgUrl2 = 'https://qa-feedback.xingshulinimg.com/1619081622945?e=4211517793&token=a0h5P_uSX_opuu0veh0W3gBYxunaVmIjpgQur9BM:oHNgMyNO2WjpY77Xm0HyezUV57w=';
 const Timer = inject('timer')(observer(props => {
   const { timer } = props;
+  const [imgUrl, setImgUrl] = useState(imgUrl1);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => setTimeout(() => {
+    setImgUrl(imgUrl2);
+  }, 2000), []);
 
   useEffect(() => {
     // timer.actions.reset();
     setTimeout(timer.actions.increase, 1000);
-
-    // return () => {
-    //     clearInterval(st);
-    // };
 
   }, [timer.get()]);
 
@@ -35,7 +38,9 @@ const Timer = inject('timer')(observer(props => {
         src={imgUrl}
       /> */}
       <p>{timer.get()}</p>
-      <Zmage src={imgUrl}/>
+      <Image src={imgUrl} width={100} height={100}/>
+      <span>test</span>
+      {/* <Modal maskClosable={false} destroyOnClose visible={visible} onCancel={() => setVisible(false)}>test</Modal> */}
     </div>
   );
 }));

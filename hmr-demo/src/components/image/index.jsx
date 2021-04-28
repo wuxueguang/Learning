@@ -1,76 +1,67 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { string, func, array, number } from 'prop-types';
-import { Spin } from 'antd';
-import Zmage from 'react-zmage';
-import { Box } from './styled';
-import LoadError from './LoadError';
 
-const C = (props, ref) => {
-  const boxRef = useRef();
-  const { src, set, width, height, bgColor = '#000' } = props;
-  const [loadStatus, setLoadStatus] = useState('loading');
-  const [imgWid, setImgWid] = useState('auto');
-  const [imgHei, setImgHei] = useState('auto');
+import React, { useRef, useEffect, useState } from 'react';
+import { string, number, object } from 'prop-types';
+import defaultImg from './asset/default.jpeg';
+import { transformStyle } from '../utils';
+import Modal from '../Modal';
+
+const C = props => {
+
+  const ref = useRef();
+  const { defaultSrc, src, width, height, style = {}, ...others } = props;
+  const [currentImg, setCurrentImg] = useState();
+  const [parentElement, setParentElement] = useState();
+  const [showBig, setShowBig] = useState(false);
+
+  let bigSrc = src;
 
   useEffect(() => {
-    const imginst = new Image;
-
     if(src){
-      setLoadStatus('loading');
+      const img = new Image;
+      const styles = transformStyle({width, height, ...style});
 
-      imginst.setAttribute('crossOrigin', 'anonymous');
-      imginst.src = src;
+      img.src = src;
 
-      imginst.addEventListener('load', () => {
-        setLoadStatus('successed');
-        const imgWid = imginst.width;
-        const imgHei = imginst.height;
-        const boxRefStyle = getComputedStyle(boxRef.current);
-        const boxWid = parseFloat(boxRefStyle.width);
-        const boxHei = parseFloat(boxRefStyle.height);
+      Object.entries(styles).forEach(([key, value]) => {
+        img.style.setProperty(key, value);
+      });
 
-        if(imgWid / imgHei > boxWid / boxHei){
-          setImgWid(boxRefStyle.width);
-        }else{
-          setImgHei(boxRefStyle.height);
+      img.addEventListener('load', e => {
+        console.log(e.path[0])
+        let parent = parentElement;
+        if(!parent){
+          parent = ref.current.parentElement;
+          setParentElement(parent);
         }
+        parent.replaceChild(img, currentImg || ref.current);
+        setCurrentImg(img);
       });
-      imginst.addEventListener('error', () => {
-        setLoadStatus('failed');
-      });
-
-      if(ref){
-        ref.current = imginst;
-      }
     }
-  }, [props.src]);
+  }, [src]);
 
-  switch(loadStatus){
-  case 'failed':
-    return <Box width={width} height={height} bgColor={bgColor}><LoadError/></Box>;
-  case 'loading':
-    return <Box width={width} height={height} bgColor={bgColor}><Spin/></Box>;
-  case 'successed':
-    return (
-      <Box
-        ref={boxRef}
-        bgColor={bgColor}
-        width={width}
-        height={height}
-      >
-        <Zmage style={{width: imgWid, height: imgHei}} src={src} set={set}/>
-      </Box>
-    );
-  }
+  return (
+    <>
+      <img {...others} ref={ref} src={defaultSrc || defaultImg} style={{...style, width, height}} />
+      {showBig && <Modal></Modal>}
+    </>
+  );
 };
 
 C.propTypes = {
+  defaultSrc: string,
   src: string,
-  set: array,
   width: number,
   height: number,
-  onClick: func,
-  bgColor: string,
+  style: object,
 };
 
-export default React.forwardRef(C);
+export default C;
+
+export const generator = defaultSrc => {
+
+  const C = props => {
+    return <C defaultSrc={defaultSrc} {...props}/>;
+  };
+
+  return C;
+};
