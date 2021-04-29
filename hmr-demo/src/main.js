@@ -32,7 +32,10 @@ const Timer = inject('timer')(observer(props => {
 
 
     const p0 = new Promise((resolve, reject) => setTimeout(() => reject('test'), 1000));
-    const p1 = p0.catch(() => console.log('p0', p0));
+    const p1 = p0.catch(() => console.log('p0', p0)).catch(() => console.log('------'));
+
+
+
     const p2 = p1.then(() => console.log('p1', p1));
     const p3 = p2.then(() => console.log('p2', p2));
 
