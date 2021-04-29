@@ -5,7 +5,7 @@
       {
         "useBuiltIns": "usage",
         // "debug": false,
-        "corejs": 2     // core-js 的版本
+        "corejs": 3     // core-js 的版本
       }
     ],
     [

@@ -1,5 +1,5 @@
 
-const RECORDER = Symbol('RECORDER key');
+const RECORDER = Symbol('recorder of events');
 const ADD_EVENT_LISTENER = Symbol('add event listener');
 
 class EventEmitter {
@@ -19,15 +19,13 @@ class EventEmitter {
   }
   emit(eventType, ...args) {
     const recorder = this[RECORDER].get(eventType);
-    try {
-      if (recorder.excutedTime < recorder.maxTime) {
-        recorder.callbacks.forEach(handler => {
-          handler(...args);
-        });
-        recorder.excutedTime += 1;
-      }
-    } catch (err) {
-      console.error(err);
+    if (recorder && recorder.excutedTime < recorder.maxTime) {
+      recorder.callbacks.forEach(handler => {
+        handler(...args);
+      });
+      recorder.excutedTime += 1;
+    }else if(recorder){
+      this[RECORDER].delete(eventType);
     }
   }
   addListener(eventType, handler){
