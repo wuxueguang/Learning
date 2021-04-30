@@ -3,7 +3,8 @@ const FULFILLED = 'promise fulfilled';
 const REJECTED = 'promise rejected';
 
 const IS_PROMISE = Symbol('is promise');
-const RECORDER = Symbol('recorder');
+const RECORDER = Symbol('Recorder for promise instance’s inner property and method.');
+const INSTANCES_RECORDER = Symbol('Promise instances recorder for stop and continue method.');
 
 const typeOf = v => /^\[object (.*)\]$/.exec(Object.prototype.toString.call(v))[1].toLowerCase();
 
@@ -11,7 +12,7 @@ const isObject = obj => typeOf(obj) === 'object';
 
 const isFunc = func => typeOf(func) === 'function';
 
-// const isArray = arr => typeOf(arr) === 'array';
+const isArray = arr => typeOf(arr) === 'array';
 
 const isPromise$ = p => isObject(p) && p[IS_PROMISE];
 
@@ -41,15 +42,16 @@ class EventEmitter {
         handler(...args);
       });
       recorder.excutedTime += 1;
-    }else if(recorder){
+    }
+    if (recorder && recorder.excutedTime >= recorder.maxTime) {
       this[RECORDER].delete(eventType);
     }
   }
-  addListener(eventType, handler){
+  addListener(eventType, handler) {
     return this[ADD_EVENT_LISTENER]({ eventType, handler });
   }
   on(eventType, handler) {
-    return this[ADD_EVENT_LISTENER]({ eventType, handler });
+    return this.addListener(eventType, handler);
   }
   once(eventType, handler) {
     return this[ADD_EVENT_LISTENER]({ eventType, handler, maxTime: 1 });
@@ -63,50 +65,54 @@ class Recorder {
     this.fulfilled = false;
     this.rejected = false;
 
-    this.fulfilledHandlerExcuted = false;
-    this.rejectedHandlerExcuted = false;
-
     this.suspended = false;
 
     this.result = undefined;
+
     this.fatherPromise = null;
 
-    this.fulfilledHandler = Function();
-    this.rejectedHandler = Function();
+    this.fulfilledHandlers = [];
+    this.rejectedHandlers = [];
 
     this.eventEmitter = new EventEmitter;
   }
 
-  setFulfilledHandler(handler){
-    this.fulfilledHandler = handler;
-    this.excuteFulfilledHandler();
+  addFulfilledHandler(handler) {
+    this.fulfilledHandlers.push(handler);
+    this._excuteHandlers();
   }
-  setRejectedHandler(handler){
-    this.rejectedHandler = handler;
-    this.excuteRejectedHandler();
+  addRejectedHandler(handler) {
+    this.rejectedHandlers.push(handler);
+    this._excuteHandlers();
   }
 
-  excuteFulfilledHandler() {
-    if (!this.suspended && this.fulfilled && !this.fulfilledHandlerExcuted) {
-      try {
-        this.fulfilledHandlerExcuted = true;
-        const ret = this.fulfilledHandler(this.result);
-        this.eventEmitter.emit(FULFILLED, { result: ret });
-      } catch (err) {
-        this.eventEmitter.emit(REJECTED, { rejectedReason: err });
+  _excuteHandlers() {
+    if (this.settled && !this.suspended) {
+      const handlers = this.fulfilled ? this.fulfilledHandlers : this.rejectedHandlers;
+      const unexcutedHandlers = handlers.filter(item => !item.excuted);
+
+      if (unexcutedHandlers.length) {
+        const settledStatus = this.fulfilled ? FULFILLED : REJECTED;
+        const detail = {
+          settledStatus,
+          result: this.result,
+          rejectReason: this.result,
+        };
+        this.eventEmitter.emit(settledStatus, { detail });
       }
-    }
-  }
-  excuteRejectedHandler() {
-    if (!this.suspended && this.rejected && !this.rejectedHandlerExcuted) {
-      let rejectedReason;
-      try{
-        this.rejectedHandlerExcuted = true;
-        rejectedReason = this.rejectedHandler(this.result);
-      }catch(err){
-        rejectedReason = err;
-      }
-      this.eventEmitter.emit(REJECTED, { rejectedReason });
+
+      unexcutedHandlers.forEach(handler => {
+        const detail = {};
+        try {
+          handler.excuted = true;
+          detail.result = handler(this.result);
+          detail.settledStatus = FULFILLED;
+        } catch (err) {
+          detail.rejectReason = err;
+          detail.settledStatus = REJECTED;
+        }
+        this.eventEmitter.emit(`handlerCalled_${handler.idx}`, { detail });
+      });
     }
   }
 
@@ -115,7 +121,7 @@ class Recorder {
       this.settled = true;
       this.fulfilled = true;
       this.result = result;
-      this.excuteFulfilledHandler();
+      this._excuteHandlers();
     }
   }
   reject(rejectReason) {
@@ -123,12 +129,15 @@ class Recorder {
       this.settled = true;
       this.rejected = true;
       this.result = rejectReason;
-      this.excuteRejectedHandler();
+      this._excuteHandlers();
     }
   }
 
-  suspend() {
+  suspendSelf(){
     this.suspended = true;
+  }
+  suspend() {
+    this.suspendSelf();
     if (isPromise$(this.fatherPromise)) {
       this.fatherPromise[RECORDER].suspend();
     }
@@ -140,78 +149,136 @@ class Recorder {
     }
 
     if (this.settled) {
-      this.excuteFulfilledHandler();
-      this.excuteRejectedHandler();
+      this._excuteHandlers();
 
       if (isPromise$(this.fatherPromise)) {
-        this.fatherPromise[RECORDER].excuteFulfilledHandler();
-        this.fatherPromise[RECORDER].excuteRejectedHandler();
+        this.fatherPromise[RECORDER]._excuteHandlers();
       }
     }
   }
 }
 
-function Promise$(executor){
-  if(new.target){
+class Promise${
+  constructor(executor, instanceRecorder){
     this[IS_PROMISE] = true;
     this[RECORDER] = new Recorder;
 
+    if(isArray(instanceRecorder)){
+      instanceRecorder.push(this);
+    }
+
     if (isFunc(executor)) {
-      executor(this[RECORDER].resolve.bind(this[RECORDER]), this[RECORDER].reject.bind(this[RECORDER]));
+      Promise.resolve().then(() => {
+        executor(this[RECORDER].resolve.bind(this[RECORDER]), this[RECORDER].reject.bind(this[RECORDER]));
+      }).catch(err => {
+        this[RECORDER].settled = true;
+        this[RECORDER].rejected = true;
+        this[RECORDER].result = err;
+      });
     } else {
       throw new TypeError(`Promise$ resolver ${executor} is not a function`);
     }
   }
 }
 
-Promise$.resolve = function(data) {
+Promise$.scope = function(){
+  const recorder = [];
+  class Promise$$ extends Promise${
+    constructor(executor){
+      super(executor, recorder);
+    }
+  }
+
+  Promise$$[INSTANCES_RECORDER] = recorder;
+
+  Promise$$.stopAll = function(){
+    recorder.forEach(item => item[RECORDER].suspendSelf());
+  };
+
+  return Promise$$;
+};
+
+Promise$.resolve = function (data) {
   if (thenable(data)) {
     return new Promise$((resolve, reject) => {
-      data.then(result => resolve(result), rejectedReason => reject(rejectedReason));
+      data.then(result => resolve(result), rejectReason => reject(rejectReason));
     });
   }
   return new Promise$(resolve => resolve(data));
 };
 
-Promise$.prototype.then = function(onFulfilled, onRejected) {
-  const fatherRecorder = this[RECORDER];
-  const promise = new Promise$(Function());
-
-  const _onFulfilled = isFunc(onFulfilled) ? onFulfilled : result => result;
-  const _onRejected = isFunc(onRejected) ? onRejected : rejectedReason => rejectedReason;
-
-  promise[RECORDER].fatherPromise = this;
-  promise[RECORDER].setFulfilledHandler(_onFulfilled);
-  promise[RECORDER].setRejectedHandler(_onRejected);
-
-  if (fatherRecorder.settled) {
-    fatherRecorder.fulfilled && promise[RECORDER].resolve(fatherRecorder.result);
-    fatherRecorder.rejected && promise[RECORDER].resolve();
-
-  } else {
-    fatherRecorder.eventEmitter.on(FULFILLED, e => {
-      promise[RECORDER].resolve(e.result);
-    });
-    fatherRecorder.eventEmitter.on(REJECTED, e => {
-      promise[RECORDER].reject(e.rejectedReason);
+Promise$.resolve = function (data) {
+  if (thenable(data)) {
+    return new Promise$((resolve, reject) => {
+      data.then(result => resolve(result), rejectReason => reject(rejectReason));
     });
   }
-
-  return promise;
+  return new Promise$(resolve => resolve(data));
 };
 
-Promise$.prototype.catch = function(onRejected) {
+Promise$.reject = function () { };
+
+Promise$.prototype.then = function (onFulfilled, onRejected) {
+  const fatherRecorder = this[RECORDER];
+  const newPromise = new Promise$(Function());
+
+  newPromise[RECORDER].fatherPromise = this;
+
+  const _onFulfilled = isFunc(onFulfilled) ? onFulfilled : result => result;
+  const _onRejected = isFunc(onRejected) ? onRejected : rejectReason => rejectReason;
+
+  _onFulfilled.idx = fatherRecorder.fulfilledHandlers.length + fatherRecorder.rejectedHandlers.length;
+  _onRejected.idx = _onFulfilled.idx + 1;
+
+  const handlerCalledHandler = e => {
+    if (e.detail.settledStatus === FULFILLED) {
+      if (thenable(e.detail.result)) {
+        e.detail.result.then(result => {
+          newPromise[RECORDER].resolve(result);
+        }, rejectReason => {
+          newPromise[RECORDER].reject(rejectReason);
+        });
+      } else {
+        newPromise[RECORDER].resolve(e.detail.result);
+      }
+    } else {
+      newPromise[RECORDER].reject(e.detail.rejectReason);
+    }
+  };
+
+  try {
+    // change new promise status
+    if (isFunc(onFulfilled)) {
+      fatherRecorder.eventEmitter.on(`handlerCalled_${_onFulfilled.idx}`, handlerCalledHandler);
+    } else {
+      fatherRecorder.eventEmitter.on(FULFILLED, handlerCalledHandler);
+    }
+    if (isFunc(onRejected)) {
+      fatherRecorder.eventEmitter.on(`handlerCalled_${_onRejected.idx}`, handlerCalledHandler);
+    } else {
+      fatherRecorder.eventEmitter.on(REJECTED, handlerCalledHandler);
+    }
+  } finally {
+    // must be after eventEmitter.on
+    fatherRecorder.addFulfilledHandler(_onFulfilled);
+    fatherRecorder.addRejectedHandler(_onRejected);
+  }
+
+  return newPromise;
+};
+
+Promise$.prototype.catch = function (onRejected) {
   return this.then(result => result, onRejected);
 };
-Promise$.prototype.finally = function(onFinally) {
+Promise$.prototype.finally = function (onFinally) {
   return this.then(onFinally, onFinally);
 };
 
-Promise$.prototype.stop = function() {
+Promise$.prototype.stop = function () {
   this[RECORDER].suspend();
   return this;
 };
-Promise$.prototype.continue = function() {
+Promise$.prototype.continue = function () {
   this[RECORDER].continue();
   return this;
 };
