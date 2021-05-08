@@ -160,14 +160,14 @@ class Recorder {
 
 class Promise${
   constructor(executor, instanceRecorder){
-    this[IS_PROMISE] = true;
-    this[RECORDER] = new Recorder;
-
-    if(isArray(instanceRecorder)){
-      instanceRecorder.push(this);
-    }
-
     if (isFunc(executor)) {
+      this[IS_PROMISE] = true;
+      this[RECORDER] = new Recorder;
+
+      if(isArray(instanceRecorder)){
+        instanceRecorder.push(this);
+      }
+
       Promise.resolve().then(() => {
         executor(this[RECORDER].resolve.bind(this[RECORDER]), this[RECORDER].reject.bind(this[RECORDER]));
       }).catch(err => {
@@ -201,10 +201,14 @@ Promise$.scope = function(){
 Promise$.resolve = function (data) {
   if (thenable(data)) {
     return new Promise$((resolve, reject) => {
-      data.then(result => resolve(result), rejectReason => reject(rejectReason));
+      Promise.resolve().then(() => {
+        data.then(result => resolve(result), rejectReason => reject(rejectReason));
+      });
     });
   }
-  return new Promise$(resolve => resolve(data));
+  return new Promise$(resolve => {
+    Promise.resolve().then(() => resolve(data));
+  });
 };
 
 Promise$.resolve = function (data) {
@@ -217,6 +221,10 @@ Promise$.resolve = function (data) {
 };
 
 Promise$.reject = function () { };
+
+// Promise$.stop = function (ps) {
+//   ps.forEach(promise => promise[RECORDER].stopSelf());
+// };
 
 Promise$.prototype.then = function (onFulfilled, onRejected) {
   const fatherRecorder = this[RECORDER];

@@ -17,11 +17,13 @@ const C = props => {
   return div && ReactDOM.createPortal(props.children, div);
 };
 
+export default C;
+
+
+
 export const createPortal = styleObj => {
 
   const Portal = props => <C portalStyle={transformStyle(styleObj)} {...props}/>;
 
   return Portal;
 };
-
-export default C;
