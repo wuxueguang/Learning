@@ -201,19 +201,6 @@ Promise$.scope = function(){
 Promise$.resolve = function (data) {
   if (thenable(data)) {
     return new Promise$((resolve, reject) => {
-      Promise.resolve().then(() => {
-        data.then(result => resolve(result), rejectReason => reject(rejectReason));
-      });
-    });
-  }
-  return new Promise$(resolve => {
-    Promise.resolve().then(() => resolve(data));
-  });
-};
-
-Promise$.resolve = function (data) {
-  if (thenable(data)) {
-    return new Promise$((resolve, reject) => {
       data.then(result => resolve(result), rejectReason => reject(rejectReason));
     });
   }
@@ -222,9 +209,9 @@ Promise$.resolve = function (data) {
 
 Promise$.reject = function () { };
 
-// Promise$.stop = function (ps) {
-//   ps.forEach(promise => promise[RECORDER].stopSelf());
-// };
+Promise$.stop = function (ps) {
+  (ps || Promise$[INSTANCES_RECORDER] || []).forEach(promise => promise[RECORDER].stopSelf());
+};
 
 Promise$.prototype.then = function (onFulfilled, onRejected) {
   const fatherRecorder = this[RECORDER];

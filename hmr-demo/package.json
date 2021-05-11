@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "test": "npx jest",
     "dev": "export NODE_ENV=development && node script/dev/index.js",
     "build:dll": "npx webpack --config webpack/dll.js",
     "server": "export SERVER_PORT=3000 && node server/index.js",
@@ -13,6 +14,7 @@
   "dependencies": {
     "@koa/router": "^10.0.0",
     "antd": "^4.15.3",
+    "immer": "^9.0.2",
     "koa": "^2.13.1",
     "koa-send": "^5.0.1",
     "koa-webpack": "^6.0.0",
@@ -22,6 +24,7 @@
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
     "react-zmage": "^0.8.5",
+    "redux": "^4.1.0",
     "styled-components": "^5.2.3"
   },
   "devDependencies": {
@@ -40,8 +43,10 @@
     "eslint-plugin-react": "^7.23.2",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.2",
+    "jest": "^26.6.3",
     "koa-proxy": "^1.0.0-alpha.3",
     "style-loader": "^2.0.0",
+    "svg-url-loader": "^7.1.1",
     "url-loader": "^4.1.1",
     "webpack": "^4.46.0",
     "webpack-cli": "^4.6.0"

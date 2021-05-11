@@ -7,7 +7,9 @@ import { observer, inject, Provider } from 'mobx-react';
 import store from './store';
 import { Image } from '@/components';
 
-import Promise$, { RECORDER } from '@/utils/Promise';
+import { Pagination } from 'antd';
+
+import Promise$ from '@/utils/Promise';
 
 const Promise = Promise$.scope();
 
@@ -17,7 +19,7 @@ const imgUrl3 = 'https://qa-feedback.xingshulinimg.com/1618998810325?e=421237803
 const imgUrl4 = 'https://feedback.xingshulinimg.com/1620381908623?e=4212381910&token=U1xiKU8XPBudRodETmcD1fWA3eiiMA-R1wSxPBzM:GawsGH-2nhOnYxjW7241QuKYMVw=';
 const Timer = inject('timer')(observer(props => {
   const { timer } = props;
-  const [imgUrl, setImgUrl] = useState(imgUrl1);
+  // const [imgUrl, setImgUrl] = useState(imgUrl1);
   // const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -51,6 +53,8 @@ const Timer = inject('timer')(observer(props => {
   //   // setTimeout(timer.actions.increase, 1000);
   // }, [timer.get()]);
 
+  const [imgsCurrent, setImgsCurrent] = useState(1);
+
   return (
     <div>
       <form>
@@ -65,7 +69,10 @@ const Timer = inject('timer')(observer(props => {
         width: 400,
         height: 600
       }}>
-        <Image set={[imgUrl1, imgUrl2, imgUrl3, imgUrl4]} width={100} height={100} bgColor="#eee"/>
+        <Image current={imgsCurrent - 1} set={[imgUrl1, imgUrl2, imgUrl3, imgUrl4]} width={100} height={100} bgColor="#eee" onChange={cur => setImgsCurrent(cur + 1)} />
+        <Pagination size="small" current={imgsCurrent} pageSize={1} total={4} onChange={cur => {
+          setImgsCurrent(cur);
+        }}/>
       </div>
 
       <span>test</span>

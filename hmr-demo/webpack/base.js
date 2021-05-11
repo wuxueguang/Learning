@@ -43,9 +43,14 @@ module.exports = {
         }],
       },
       {
-        test: /\.svg$/,
-        // include: SRC_PATH,
-        use: 'file-loader',
+        test: /\.svg/,
+        use: {
+          loader: 'svg-url-loader',
+          options: {
+            // make loader to behave like url-loader, for all svg files
+            encoding: 'base64',
+          },
+        },
       },
       {
         test: /\.(png|jpg|jpeg|gif|webp)$/,

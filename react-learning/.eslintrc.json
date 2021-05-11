@@ -1,5 +1,4 @@
 {
-    "ignorePatterns": ["*.test.js"],
     "env": {
         "browser": true,
         "es2021": true
@@ -21,7 +20,7 @@
     "rules": {
         "indent": [
             "error",
-            2
+            2,
         ],
         "linebreak-style": [
             "error",
