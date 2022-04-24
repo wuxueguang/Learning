@@ -1,47 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import React, { Component, useState, useEffect, useMemo, useCallback } from 'react';
+import { render } from 'react-dom';
 
-const reducer = (state = { count: 0}, action) => {
-  switch(action.type){
-    case 'count/increase':
-      return { count: state.count + 1};
-    default:
-      return state;
-  }
-};
 
-const store = createStore(reducer);
 
-const mapStateToProps = (state, ownProps) => {
-  return { count: state.count };
-};
 
-const connect = mapStateToProps => C => props => {
-  const [state, setState] = useState();
+const Span = (props) => {
+  const { info } = props;
+  const [name, setName] = useState();
 
   useEffect(() => {
-    store.subscribe(() => {
-      const newState = mapStateToProps(store.getState(), props);
-      setState(newState);
-    });
-  }, []);
-
-  return <C {...state} />;
+    console.log('transfer');
+    setName(info.name.toUpperCase());
+  }, [info]);
+  
+  return <span>{ name }</span>;
 };
 
-const Counter = props => {
-  const { count } = props;
+const partColumns = [
+  {},
+  {},
+];
+
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+  
+  const o = useMemo(() => {
+    return { name: 'Tom' };
+  }, []);
+
+  const [searchParams, setSearchParams] = useState();
+
+  const fields = [
+    // ...
+  ];
+
+  // const o = { name: 'Tom' };
 
   useEffect(() => {
-    setInterval(() => {
-      store.dispatch({ type: 'count/increase' });
-    }, 1000);
-  }, []);
+    setTimeout(() => setCount(count + 1), 1000);
+  }, [count]);
 
-  return <span>{count}</span>;
+  return (
+    <>
+      <span>{count}</span><br/>
+      <Span info={ o } />
+    </>
+  );
 };
 
-const App = connect(mapStateToProps)(Counter);
-
-ReactDOM.render(<App/>, document.getElementById('root'));
+render(<Counter />, document.getElementById('root'));

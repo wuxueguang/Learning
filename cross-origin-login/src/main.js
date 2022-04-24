@@ -1,13 +1,8 @@
-import { init, login, logout } from './lib/login';
-import { log } from './utils';
+// import { init, login, logout } from './lib/login';
+import { init, login } from './lib/zz';
 
-init(({userInfo}) => {
-    log('init', JSON.stringify(userInfo));
-    logout()
-}, () => {
-    login('wxg315699', '123123', ({token, userInfo}) => {
-        log('login', token, userInfo);
-        // alert(JSON.stringify(userInfo))
-    })
-})
 
+init('http://localhost:8000/iframe.html');
+
+
+login().then(data => console.log(data, 'sdfsdfsdf'));

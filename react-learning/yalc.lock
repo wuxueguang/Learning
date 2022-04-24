@@ -1,0 +1,13 @@
+{
+  "version": "v1",
+  "packages": {
+    "react-demo": {
+      "signature": "98dc269ad9197e0a3d310bcb944a83fb",
+      "file": true
+    },
+    "ygyg-digital-editor": {
+      "signature": "ee5cbcdaf943a8865e6d6d597aea9d0d",
+      "file": true
+    }
+  }
+}

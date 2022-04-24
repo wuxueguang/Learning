@@ -5,7 +5,10 @@
       {
         "useBuiltIns": "usage",
         // "debug": false,
-        "corejs": 3     // core-js 的版本
+        "corejs": 3,     // core-js 的版本
+        "targets": {
+          "browsers": ["> 1%", "last 2 versions"]
+        }
       }
     ],
     [
@@ -21,9 +24,9 @@
       {
         "corejs": 3 // 指定 runtime-corejs 的版本，目前有 2 3 两个版本
       }
+    ],
+    [
+      "dynamic-import-webpack"
     ]
-  //   [
-  //     "dynamic-import-webpack",
-  //   ]
   ]
 }

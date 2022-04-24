@@ -2,10 +2,15 @@
   "react",
   "prop-types",
   "react-dom",
+
   "antd",
+
   "styled-components",
+
   "react-router-dom",
+
   "mobx",
   "mobx-react",
+
   "@zhizhu/image"
 ]

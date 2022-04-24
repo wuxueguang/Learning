@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    .box{
+      width: 600px;
+      outline: dashed 1px #f00;
+      margin: auto;
+      display: flex;
+    }
+
+    .box > span{
+      display: inline-block;
+      height: 100px;
+    }
+
+    .box > .with-auto-width{
+      flex-grow: 1;
+      background: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <span>test test test</span>
+    <span class="with-auto-width"></span>
+    <span>test</span>
+  </div>
+</body>
+</html>

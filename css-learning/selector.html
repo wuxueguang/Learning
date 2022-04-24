@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>demo</title>
+</head>
+<style>
+  .demo :nth-child(2) {
+    color: #ff0000;
+  }
+
+  .demo :nth-of-type(2) {
+    color: #00ff00;
+  }
+
+
+  
+</style>
+<body>
+  <div>
+    <ul class="demo">
+      <p>first p</p>
+      <li>first li</li>
+      <li>second li</li>
+      <p>second p</p>
+    </ul>
+  </div>
+
+  <style>
+    .empty-test > div{
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background: red;
+
+    }
+
+    .empty-test > div:empty {
+      background: green;
+    }
+  </style>
+  <div class="empty-test">
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+  </div>
+</body>
+</html>

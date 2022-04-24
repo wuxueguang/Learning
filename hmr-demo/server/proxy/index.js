@@ -1,10 +1,5 @@
 
-const Router = require('@koa/router');
 const proxy = require('koa-proxy');
-
-const proxyMap = require('./proxies');
-
-const router = new Router;
 
 const createProxyMiddleware = ({ headers, ...cfg }) => (ctx, next) => {
   ctx.req.headers = {
@@ -16,8 +11,20 @@ const createProxyMiddleware = ({ headers, ...cfg }) => (ctx, next) => {
   return proxy(cfg)(ctx, next);
 };
 
-for(const [path, cfg] of proxyMap){
-  router[cfg.method || 'get'](path, createProxyMiddleware(cfg));
-}
+const createProxyReg = str => new RegExp(`^/proxied/${str}/`);
+const proxyPath = path => `/proxied/${path}`;
 
-module.exports = router.routes();
+// proxys
+module.exports = [
+  {
+    headers: {test: 'test', cookie: 'sdfsdf'},
+    host: 'http://localhost:3002',
+    match: createProxyReg('3001'),
+    map: path => path.replace(proxyPath(3001), '/api'),
+  },
+  {
+    host: 'http://qa-bmapi.xsl.link',
+    match: createProxyReg('bmapi'),
+    map: path => path.replace(proxyPath('bmapi'), '/api/be'),
+  },
+].map(item => createProxyMiddleware(item));

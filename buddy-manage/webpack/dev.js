@@ -25,16 +25,18 @@ module.exports = {
     }),
   ],
 
-  // devServer: {
-  // 	port: 9000,
-  // 	compress: true,
-  // 	writeToDisk: true,
-  // 	contentBase: path.join(__dirname, '../dist'),
-  // 	contentBasePublicPath: baseCfg.output.publicPath,
-  // 	before: function(app) {
-  // 		app.get(/^\/(?!(static\/.*|api\/.*))/, function(req, res){
-  // 			res.sendFile(path.join(__dirname, '../dist/entry.html'));
-  // 		});
-  // 	}
-  // },
 };
+
+
+// devServer: {
+// 	port: 9000,
+// 	compress: true,
+// 	writeToDisk: true,
+// 	contentBase: path.join(__dirname, '../dist'),
+// 	contentBasePublicPath: baseCfg.output.publicPath,
+// 	before: function(app) {
+// 		app.get(/^\/(?!(static\/.*|api\/.*))/, function(req, res){
+// 			res.sendFile(path.join(__dirname, '../dist/entry.html'));
+// 		});
+// 	}
+// },

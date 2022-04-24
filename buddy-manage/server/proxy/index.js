@@ -17,7 +17,6 @@ const proxyPath = path => `/proxied/${path}`;
 // proxys
 module.exports = [
   {
-    headers: {test: 'test', cookie: 'sdfsdf'},
     host: 'http://localhost:3002',
     match: createProxyReg('3001'),
     map: path => path.replace(proxyPath(3001), '/api'),

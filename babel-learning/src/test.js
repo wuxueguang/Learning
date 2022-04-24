@@ -1,13 +1,25 @@
+import React, { useState } from 'react';
 
-const array = [0, 1, 2, 3, 4, 5, 6]
-const arr = [...array]
 
-array.includes(item => item > 3)
+export const Span = props => {
+  const { desc } = props;
+  const [count, setCount] = useState(0);
 
-class A{
-
+  return <span>{desc} {count}</span>
 }
 
-async function test(){}
+const Test = () => {
 
-new IntersectionObserver
+  return (
+    <div className="<script>alert(2)</script>">
+      <p>
+        <Span desc="今天"/>
+        <span>test</span>
+        <span>test</span>
+        <span dangerouslySetInnerHTML={{__html: '<script>alert(2)</script>'}}/>
+      </p>
+    </div>
+  );
+}
+
+export default Test;

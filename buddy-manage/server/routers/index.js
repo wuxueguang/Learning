@@ -17,7 +17,7 @@ router.get(/^\/static\/.+/, async (ctx, next) => {
       root: `${__dirname}/../../dist`,
     });
   }catch(err){
-    next();
+    await next();
   }
 });
 

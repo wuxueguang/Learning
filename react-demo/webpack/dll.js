@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const baseCfg = require('./base');
-const base = require('./base');
 
 module.exports = {
   mode: 'production',

@@ -4,10 +4,11 @@ module.exports = {
 
   entry: {
     main: ['./src/main'],
+    // main2: ['./src/main2'],
   },
 
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[hash:6].js',
     path: path.join(__dirname, '../dist'),
     publicPath: '/static/',
   },
@@ -47,6 +48,19 @@ module.exports = {
         }],
       },
       {
+        test: /\.scss$/,
+        use: [{
+          loader: 'style-loader',
+        }, {
+          loader: 'css-loader',
+          options: {
+            modules: true,
+          },
+        }, {
+          loader: 'sass-loader',
+        }],
+      },
+      {
         test: /\.svg/,
         use: {
           loader: 'svg-url-loader',
@@ -58,13 +72,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|jpeg|gif|webp)$/,
-        exclude: [
-          /\.html$/,
-          /\.(js|jsx|ts|tsx)$/,
-          /\.css$/,
-          /\.json$/,
-          /\.svg$/,
-        ],
+        exclude: [/\.html$/, /\.(js|jsx|ts|tsx)$/, /\.css$/, /\.json$/, /\.svg$/,],
         use: {
           loader: 'url-loader',
           options: {

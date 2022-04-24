@@ -75,7 +75,7 @@ function startServerProcess() {
 }
 
 startServerProcess();
-chokidar.watch(path.join(__dirname, '..')).on('all', (event, path) => {
+chokidar.watch(path.join(__dirname, '../../server')).on('all', (event, path) => {
   if(childPid.isAlive) {
     process.kill(childPid.pid);
     childPid.isAlive = false;

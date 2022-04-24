@@ -1,5 +1,5 @@
 
-
+import debounce from 'lodash/debounce';
 import React, { useRef, useEffect, useState } from 'react';
 import { string, number, array, oneOfType, func } from 'prop-types';
 import { ImgBox } from './styled';
@@ -21,6 +21,38 @@ const C = props => {
   const [dataSet] = useState(isArray(set) ? set : srcer(src));
   const [imgs, setImgs] = useState([]);
   const [pageIndex, setPageIndex] = useState(0);
+  const [showBig, setShowBig] = useState(false);
+
+  const fixImgSize = img => {
+    const imgWid = +img.getAttribute('original-width');
+    const imgHei = +img.getAttribute('original-height');
+    const { width, height } = imgBoxRef.current.parentElement.getBoundingClientRect();
+    const boxWid = props.width || width;
+    const boxHei = props.height || height;
+
+    if (imgWid / imgHei > boxWid / boxHei) {
+      img.style.setProperty('width', `${boxWid}px`);
+      img.style.setProperty('height', 'auto');
+    } else {
+      img.style.setProperty('width', 'auto');
+      img.style.setProperty('height', `${boxHei}px`);
+    }
+
+    img.style.setProperty('transform', 'rotate3d(0,0,1,0deg)');
+    img.setAttribute('rotate', 0);
+
+    return img;
+  };
+
+  const resizeHandler = debounce(() => {
+    if(isImage(imgs[pageIndex]) && !showBig){
+      fixImgSize(imgs[pageIndex]);
+    }
+  }, 300);
+
+  const resizeObserver = new ResizeObserver(() => {
+    resizeHandler();
+  });
 
   useEffect(() => {
     store.imgs.subscribe(() => {
@@ -49,30 +81,12 @@ const C = props => {
     });
   }, [current]);
 
-  const [showBig, setShowBig] = useState(false);
   useEffect(() => {
-
     if (!showBig) {
       imgBoxRef.current.replaceChildren(loading);
 
       if (isImage(imgs[pageIndex])) {
-        const img = imgs[pageIndex];
-        const imgWid = +img.getAttribute('original-width');
-        const imgHei = +img.getAttribute('original-height');
-        const { width, height } = imgBoxRef.current.parentElement.getBoundingClientRect();
-        const boxWid = props.width || width;
-        const boxHei = props.height || height;
-
-        if (imgWid / imgHei > boxWid / boxHei) {
-          img.style.setProperty('width', `${boxWid}px`);
-          img.style.setProperty('height', 'auto');
-        } else {
-          img.style.setProperty('width', 'auto');
-          img.style.setProperty('height', `${boxHei}px`);
-        }
-
-        img.style.setProperty('transform', 'rotate3d(0,0,1,0deg)');
-        img.setAttribute('rotate', 0);
+        const img = fixImgSize(imgs[pageIndex]);
         imgBoxRef.current.replaceChildren(img);
       } else if (isString(imgs[pageIndex])) {
         createImg(imgs[pageIndex]).then(img => {
@@ -89,6 +103,12 @@ const C = props => {
         });
       }
     }
+
+    resizeObserver.observe(imgBoxRef.current);
+
+    return () => {
+      resizeObserver.unobserve(imgBoxRef.current);
+    };
   }, [pageIndex, imgs, showBig]);
 
   return (

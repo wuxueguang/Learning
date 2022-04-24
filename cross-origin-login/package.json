@@ -11,8 +11,10 @@
     "dev": "cross-env process.env.NODE_ENV=development webpack --watch"
   },
   "dependencies": {
+    "@koa/router": "^10.1.0",
     "@types/axios": "^0.14.0",
     "file-loader": "^4.2.0",
+    "koa-send": "^5.0.1",
     "querystring": "^0.2.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",

@@ -53,7 +53,7 @@ koaWebpack({
     match: /^(?!\/static\/)/        // ...just the /static folder
   }));
 
-  let staticPort = 3000;
+  let staticPort = 7889;
   kill(staticPort).then(() => {
     app.listen(staticPort, () => {
       console.log(`应用已经启动，http://localhost:${staticPort}`);

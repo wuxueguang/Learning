@@ -1,6 +1,7 @@
 // const path = require('path');
 const Koa = require('koa');
 const { kill } = require('cross-port-killer');
+const bodyParser = require('koa-bodyparser');
 
 const router = require('./routers');
 const proxies = require('./proxy');
@@ -8,6 +9,8 @@ const proxies = require('./proxy');
 const serverPort = require('../script/dev/port');
 
 const app = new Koa();
+
+app.use(bodyParser());
 
 proxies.forEach(proxy => app.use(proxy));
 app.use(router.routes());

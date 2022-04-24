@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas Learning</title>
+
+  <style>
+    canvas{
+      border: solid 1px #000;
+    }
+    input[type="number"]{
+      width: 30px;
+    }
+    a{
+      display: inline-block;
+      border: solid 1px #ccc;
+      line-height: 30px;
+      width: 60px;
+    }
+  </style>
+</head>
+<body>
+
+  <div><input id="img_selector" type="file"/></div><br/>
+  <div>
+    <span>删除第</span>
+    <input type="number"/>
+    <span>张图片</span>
+    <button>确认</button>
+  </div><br/>
+  <div>
+    <label><input name="align" type="radio" checked/>左对齐</label>
+    <label><input name="align" type="radio"/>居中</label>
+    <label><input name="align" type="radio"/>右对齐</label>
+  </div><br/>
+  <div><a download="result.png" id="save">save</a></div><br/>
+  
+  <div id="canvas_box">
+    <canvas id="canvas" width="300" height="300"></canvas>
+  </div>
+
+
+  <script src="./index.js"></script>
+</body>
+</html>

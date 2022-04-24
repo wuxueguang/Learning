@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        .triangle{
+        /* .triangle{
             width: 0;
             height: 0;
             border: solid 30px green;
@@ -14,11 +14,81 @@
             border-left-color: #fff;
             border-right-color: #fff;
             border-top: 0;
+        } */
 
+        html,
+        body{
+            margin: 0;
+            padding: 0;
+            height: 100%;
         }
+
+        body{
+            /* display: flex; */
+        }
+
+        .container{
+            margin: auto;
+            width: 200px;
+            height: 200px;
+            background-color: #eee;
+            /* position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); */
+        }
+
+        @keyframes test {
+            0% {
+                transform: translate(0, 0) rotate(0);
+            }
+
+            100% {
+                transform: translate(100%, 100%) rotate(90deg);
+            }
+        }
+
+        img{
+            width: 100px;
+            /* transition: transform .3s; */
+            /* outline: solid 1px #f00; */
+            animation-name: test;
+            animation-duration: 1s;
+            animation-timing-function: ease-in;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }
+        /* img:hover{
+            transform: translate(100%, 100%) rotate(90deg);
+        } */
+
     </style>
 </head>
 <body>
-    <div class="triangle"></div>
+    <!-- <div class="triangle"></div> -->
+    <div class="container">
+        <img class="rotated" src="./assets/mdn.png" />
+    </div>
+
+
+    <style>
+        
+        .fake-border{
+            height: 10px;
+            background:#000;
+            transform: scaleY(0.1);
+            transform-origin:0 0;
+            overflow: hidden;
+        }
+
+        .fake-border::after {
+            content: '';
+            width: 100%;
+            border-bottom: 10px solid #000;
+            transform: scaleY(0.1);
+        }
+    </style>
+
+    <div class="fake-border">test</div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 {
-  "include": ["src/server/**/*"],  // server end's nodejs modules 
+  "include": ["./scripts/*"],  // server end's nodejs modules 
+  // "exclude": ["./dist/*"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
     /* Basic Options */
