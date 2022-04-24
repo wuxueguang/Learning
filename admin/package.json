@@ -34,7 +34,7 @@
     "jest": "^24.5.0",
     "jest-canvas-mock": "^2.0.0-beta.1",
     "mocker-api": "^1.6.7",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "postcss-loader": "^3.0.0",
     "px2rem-loader": "^0.1.9",
     "react-devtools": "^3.6.1",
